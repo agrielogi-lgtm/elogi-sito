@@ -1,0 +1,165 @@
+# GUIDA SETUP — Sito ELOGI
+
+Questa guida ti porta dal file alla messa online, con il pannello News
+funzionante e il form contatti che invia le email davvero.
+Si fa **una volta sola**. Dopo, per pubblicare una news ti basta aprire il pannello.
+
+Tempo richiesto: circa 30-40 minuti la prima volta.
+
+Hai bisogno di 3 account gratuiti (nessun pagamento, nessun abbonamento):
+- GitHub (il "magazzino" dove vive il sito e le news)
+- Netlify (mette il sito online + gestisce il login del pannello)
+- Formspree (fa arrivare le email del form)
+
+────────────────────────────────────────────────────────
+PARTE 1 — METTERE IL SITO SU GITHUB
+────────────────────────────────────────────────────────
+
+1. Vai su https://github.com e crea un account gratuito (se non ce l'hai).
+
+2. In alto a destra, clicca sul "+" → "New repository".
+   - Repository name: scrivi   elogi-sito
+   - Lascia "Public" selezionato (IMPORTANTE: deve essere pubblico,
+     altrimenti le news non si caricano).
+   - Clicca "Create repository".
+
+3. Nella pagina che si apre, clicca il link
+   "uploading an existing file".
+
+4. Trascina dentro TUTTO il contenuto della cartella elogi-sito
+   (i file index.html, GUIDA-SETUP, e le cartelle admin, images,
+   news, uploads). Aspetta che finisca di caricare.
+
+5. Clicca "Commit changes" (pulsante verde in basso).
+
+   ✅ Ora il tuo sito è su GitHub. Segnati due cose:
+      - il tuo NOME UTENTE GitHub (es. "mariorossi")
+      - il nome del repository ("elogi-sito")
+
+────────────────────────────────────────────────────────
+PARTE 2 — COLLEGARE I DUE CODICI NEL SITO
+────────────────────────────────────────────────────────
+
+Vanno inseriti il tuo utente/repository GitHub nel file index.html,
+così la sezione News sa dove leggere le novità.
+
+6. Su GitHub, apri il file index.html (cliccaci sopra) e clicca
+   l'icona della matita (✏️ "Edit this file") in alto a destra.
+
+7. Premi Ctrl+F dentro la pagina e cerca:  IL_TUO_UTENTE_GITHUB
+   Troverai due righe:
+       const GH_USER = 'IL_TUO_UTENTE_GITHUB';
+       const GH_REPO = 'IL_TUO_REPOSITORY';
+   Sostituisci con i tuoi valori reali, ad esempio:
+       const GH_USER = 'mariorossi';
+       const GH_REPO = 'elogi-sito';
+
+8. Clicca "Commit changes". (Il codice Formspree lo mettiamo dopo,
+   alla Parte 5.)
+
+────────────────────────────────────────────────────────
+PARTE 3 — METTERE IL SITO ONLINE CON NETLIFY
+────────────────────────────────────────────────────────
+
+9. Vai su https://www.netlify.com e registrati gratis.
+   Scegli "Sign up with GitHub" (è la via più semplice: usa
+   l'account GitHub che hai appena creato).
+
+10. Dalla dashboard Netlify: "Add new site" → "Import an existing
+    project" → "Deploy with GitHub".
+
+11. Autorizza Netlify e scegli il repository  elogi-sito.
+
+12. Lascia tutte le impostazioni come sono e clicca "Deploy".
+    Dopo un minuto il sito è online a un indirizzo tipo
+    "nome-a-caso-123.netlify.app". Puoi cambiarlo in
+    Site settings → Change site name.
+
+    ✅ Il sito è online. Ora attiviamo il pannello News.
+
+────────────────────────────────────────────────────────
+PARTE 4 — ATTIVARE IL PANNELLO NEWS (login)
+────────────────────────────────────────────────────────
+
+Il pannello usa "Netlify Identity" + "Git Gateway": gratis,
+serve solo attivarli.
+
+13. In Netlify, apri il tuo sito → "Site configuration" (o
+    "Site settings") → cerca "Identity" nel menu a sinistra →
+    clicca "Enable Identity".
+
+14. Sempre in Identity:
+    - Sezione "Registration": imposta su "Invite only"
+      (così solo tu puoi entrare nel pannello).
+    - Scendi a "Services" → "Git Gateway" → clicca "Enable Git Gateway".
+
+15. Ora invitati da solo: scheda "Identity" in alto → "Invite users"
+    → scrivi la tua email (info.agrielogi@gmail.com) → "Send".
+    Ti arriva una mail: clicca il link e imposta una password.
+
+16. Vai su  iltuosito.netlify.app/admin
+    Fai login con email e password.
+    🎉 Sei dentro il pannello! Vedi la sezione "News" con il post
+    di esempio. Prova a crearne una nuova: titolo, testo, data,
+    immagine, allegati, link. Clicca "Publish".
+
+    Dopo circa 1 minuto la news appare sul sito nella sezione News.
+
+────────────────────────────────────────────────────────
+PARTE 5 — FAR ARRIVARE LE EMAIL DEL FORM (Formspree)
+────────────────────────────────────────────────────────
+
+17. Vai su https://formspree.io e registrati gratis con
+    info.agrielogi@gmail.com.
+
+18. "New form" → dai un nome (es. "Contatti sito ELOGI") →
+    come email di destinazione metti  info.agrielogi@gmail.com → crea.
+
+19. Formspree ti dà un indirizzo tipo:
+       https://formspree.io/f/abcdwxyz
+    Copia quella parte finale (abcdwxyz).
+
+20. Torna su GitHub → index.html → matita per modificare →
+    cerca  IL_TUO_CODICE  e sostituisci, ad esempio:
+       const FORMSPREE_URL = 'https://formspree.io/f/abcdwxyz';
+    Commit changes. Netlify ripubblica da solo in un minuto.
+
+21. Vai sul sito, prova a inviare un messaggio dal form.
+    La prima volta Formspree ti chiede di confermare l'email:
+    controlla la posta di info.agrielogi@gmail.com e conferma.
+    Da quel momento i messaggi arrivano lì direttamente.
+
+────────────────────────────────────────────────────────
+DA QUI IN POI — PER PUBBLICARE UNA NEWS
+────────────────────────────────────────────────────────
+
+1. Vai su  iltuosito.it/admin  (o l'indirizzo netlify.app/admin)
+2. Login
+3. News → "New Novità"
+4. Compila titolo, testo, data, immagine, allegati, link
+5. "Publish"
+
+Non devi MAI più toccare il codice. Fine.
+
+────────────────────────────────────────────────────────
+DOMINIO PERSONALIZZATO (facoltativo)
+────────────────────────────────────────────────────────
+
+Se vuoi un indirizzo tipo www.elogi.it invece di netlify.app:
+compra il dominio (Aruba/Register.it, ~10-15€/anno) e in Netlify
+vai su "Domain settings" → "Add custom domain" e segui la procedura
+guidata. Netlify fornisce il certificato HTTPS gratis.
+
+────────────────────────────────────────────────────────
+PROBLEMI COMUNI
+────────────────────────────────────────────────────────
+
+• Le news non appaiono → controlla che il repository GitHub sia
+  PUBBLICO e che GH_USER / GH_REPO in index.html siano scritti
+  giusti (occhio a maiuscole/minuscole).
+
+• Il form dà errore → verifica di aver messo il codice Formspree
+  giusto e di aver confermato l'email su Formspree.
+
+• Non entro nel pannello /admin → assicurati di aver attivato sia
+  "Identity" sia "Git Gateway" (Parte 4) e di aver accettato l'invito.
