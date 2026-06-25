@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ELOGI Società Agricola — Olio EVO e Farro Biologico · Buti, Toscana</title>
+  <meta name="description" content="Azienda agricola familiare a Buti (PI) da tre generazioni. Olio extravergine e farro dicocco biologico dalle colline pisane.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* ═══════════════════════════════════════════════════
+       PALETTE — pastel earthy, sand-dominant
+    ═══════════════════════════════════════════════════ */
+    :root {
+      --terracotta:  #7a2230;   /* accento caldo */
+      --terra-soft:  #a8536a;   /* terracotta chiara */
+      --sand:        #ece2d0;   /* sfondo dominante */
+      --sand-lt:     #f7f2e7;   /* crema chiarissima */
+      --olive:       #6b7350;   /* verde oliva pastello */
+      --olive-deep:  #46301f;   /* oliva scuro per testo/sezioni */
+      --ochre:       #c79a4a;   /* ocra dorata */
+      --clay:        #a87a4a;   /* argilla */
+      --sea:         #5a3a3f;   /* verde-mare profondo */
+      --sea-soft:    #6e4a50;
+      --ink:         #36312a;   /* testo scuro caldo */
+      --ink-soft:    #5e564a;
+      --cream-white: #faf6ee;
+
+      --f-head: 'Fraunces', Georgia, serif;
+      --f-body: 'Manrope', system-ui, sans-serif;
+
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --r-lg: 28px;
+      --r-md: 18px;
+      --r-sm: 12px;
+      --max-w: 1200px;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       RESET / BASE
+    ═══════════════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--sand-lt);
+      color: var(--ink);
+      font-family: var(--f-body);
+      font-size: clamp(15px, 1.05vw, 17px);
+      line-height: 1.75;
+      font-weight: 400;
+      overflow-x: hidden;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    body.loaded { opacity: 1; }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+
+    /* ═══════════════════════════════════════════════════
+       PROGRESS BAR
+    ═══════════════════════════════════════════════════ */
+    #progress {
+      position: fixed; top: 0; left: 0; z-index: 999;
+      height: 3px; width: 0%;
+      background: var(--terracotta);
+      transition: width 0.1s linear; pointer-events: none;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       TYPE
+    ═══════════════════════════════════════════════════ */
+    h1, h2, h3 {
+      font-family: var(--f-head); font-weight: 400;
+      line-height: 1.12; letter-spacing: -0.015em;
+    }
+    h1 { font-size: clamp(2.4rem, 6vw, 4.6rem); }
+    h2 { font-size: clamp(1.9rem, 3.6vw, 3rem); }
+    h3 { font-size: clamp(1.3rem, 2vw, 1.7rem); }
+
+    .eyebrow {
+      font-family: var(--f-body);
+      font-size: 0.92rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--terracotta);
+    }
+
+    .leaf-rule {
+      display: flex; align-items: center; gap: 1rem;
+      margin: 2rem 0; color: var(--terracotta);
+    }
+    .leaf-rule::before, .leaf-rule::after {
+      content: ''; flex: 1; height: 1px;
+      background: currentColor; opacity: 0.3;
+    }
+    .leaf-rule i { font-size: 0.8rem; opacity: 0.6; }
+
+    /* ═══════════════════════════════════════════════════
+       BUTTONS — pill shape, soft
+    ═══════════════════════════════════════════════════ */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.9rem 2rem; border-radius: 100px;
+      font-family: var(--f-body); font-size: 0.8rem;
+      font-weight: 600; letter-spacing: 0.06em;
+      border: none; transition: all 0.3s var(--ease);
+    }
+    .btn-primary {
+      background: var(--terracotta); color: var(--cream-white);
+      box-shadow: 0 8px 22px rgba(192,98,63,0.28);
+    }
+    .btn-primary:hover {
+      background: #ab5435; transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(192,98,63,0.36);
+    }
+    .btn-ghost {
+      background: rgba(255,255,255,0.16); color: var(--cream-white);
+      border: 1px solid rgba(255,255,255,0.5);
+      backdrop-filter: blur(4px);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.28); transform: translateY(-2px); }
+    .btn-olive {
+      background: var(--olive-deep); color: var(--cream-white);
+      box-shadow: 0 8px 22px rgba(79,87,51,0.25);
+    }
+    .btn-olive:hover { background: #3c4327; transform: translateY(-2px); }
+    .btn-outline-dark {
+      background: transparent; color: var(--olive-deep);
+      border: 1.5px solid var(--olive-deep);
+    }
+    .btn-outline-dark:hover { background: var(--olive-deep); color: var(--cream-white); }
+
+    /* ═══════════════════════════════════════════════════
+       MOBILE NAV
+    ═══════════════════════════════════════════════════ */
+    .mobile-nav {
+      display: none; position: fixed; inset: 0;
+      background: var(--olive-deep); z-index: 500;
+      flex-direction: column; justify-content: center; align-items: center;
+      gap: 2.2rem; opacity: 0; transition: opacity 0.3s ease;
+    }
+    .mobile-nav.open { display: flex; opacity: 1; }
+    .mobile-nav a {
+      font-family: var(--f-head); font-size: 1.5rem;
+      color: rgba(255,255,255,0.85); transition: color 0.25s;
+    }
+    .mobile-nav a:hover { color: var(--cream-white); }
+    .mob-close {
+      position: absolute; top: 1.6rem; right: 1.8rem;
+      background: none; border: none;
+      color: rgba(255,255,255,0.6); font-size: 1.6rem;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       HEADER
+    ═══════════════════════════════════════════════════ */
+    #header {
+      position: fixed; top: 3px; left: 0; right: 0; z-index: 200;
+      padding: 1.3rem clamp(1.4rem, 4vw, 3rem);
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.4s ease, box-shadow 0.4s ease,
+                  top 0.4s ease, padding 0.4s ease;
+    }
+    /* velo scuro in cima quando l'header è trasparente: stacca logo e menu dalla foto */
+    #header::before {
+      content: ''; position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(to bottom, rgba(36,33,25,0.45), transparent);
+      opacity: 1; transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    #header.scrolled::before { opacity: 0; }
+    #header.scrolled {
+      top: 0; padding-top: 0.9rem; padding-bottom: 0.9rem;
+      background: rgba(245,239,226,0.92);
+      box-shadow: 0 2px 30px rgba(54,49,42,0.08);
+      backdrop-filter: blur(16px);
+    }
+
+    .h-logo { display: flex; flex-direction: row; align-items: center; gap: 0.7rem; }
+    .h-logo-img {
+      width: 50px; height: 50px; border-radius: 50%;
+      flex-shrink: 0; object-fit: cover;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+      transition: transform 0.3s var(--ease);
+    }
+    .h-logo:hover .h-logo-img { transform: scale(1.06) rotate(-3deg); }
+    .h-logo-text { display: flex; flex-direction: column; line-height: 1.05; gap: 2px; }
+    .h-logo .brand {
+      font-family: var(--f-head); font-size: 1.55rem;
+      font-weight: 500; color: var(--cream-white);
+      letter-spacing: 0.04em; transition: color 0.4s;
+    }
+    .h-logo .sub {
+      font-family: var(--f-body); font-size: 0.6rem; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255,255,255,0.7); transition: color 0.4s;
+    }
+    #header.scrolled .h-logo .brand { color: var(--olive-deep); }
+    #header.scrolled .h-logo .sub   { color: var(--ink-soft); }
+
+    .h-right { display: flex; align-items: center; gap: 0.7rem; }
+    .ig-link, .wa-link {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 38px; height: 38px; border-radius: 50%;
+      color: var(--cream-white); font-size: 1.15rem;
+      border: 1.5px solid rgba(255,255,255,0.4);
+      transition: all 0.3s var(--ease);
+    }
+    .ig-link:hover { background: var(--terracotta); border-color: var(--terracotta); transform: translateY(-2px); }
+    .wa-link:hover { background: #25D366; border-color: #25D366; transform: translateY(-2px); }
+    #header.scrolled .ig-link, #header.scrolled .wa-link { color: var(--olive-deep); border-color: rgba(54,49,42,0.2); }
+    #header.scrolled .ig-link:hover { color: var(--cream-white); background: var(--terracotta); border-color: var(--terracotta); }
+    #header.scrolled .wa-link:hover { color: var(--cream-white); background: #25D366; border-color: #25D366; }
+    .h-right .lang-toggle { margin-left: 0.4rem; }
+    nav.main-nav { display: flex; gap: 2rem; align-items: center; }
+    nav.main-nav a {
+      font-family: var(--f-body); font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.04em; color: rgba(255,255,255,0.88);
+      position: relative; padding-bottom: 3px; transition: color 0.25s;
+    }
+    nav.main-nav a::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px; background: var(--terracotta);
+      border-radius: 2px; transition: width 0.3s var(--ease);
+    }
+    nav.main-nav a:hover::after { width: 100%; }
+    #header.scrolled nav.main-nav a { color: var(--ink); }
+
+    .nav-cta {
+      background: var(--terracotta) !important; color: var(--cream-white) !important;
+      padding: 0.55rem 1.3rem !important; border-radius: 100px;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: #ab5435 !important; }
+
+    .lang-toggle {
+      display: flex; border: 1.5px solid rgba(255,255,255,0.4);
+      border-radius: 100px; overflow: hidden; transition: border-color 0.4s;
+    }
+    #header.scrolled .lang-toggle { border-color: rgba(54,49,42,0.2); }
+    .lang-btn {
+      background: none; border: none;
+      font-family: var(--f-body); font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.06em; padding: 0.4rem 0.75rem;
+      color: rgba(255,255,255,0.6); transition: all 0.25s;
+    }
+    .lang-btn.active { background: var(--terracotta); color: var(--cream-white); }
+    #header.scrolled .lang-btn { color: var(--ink-soft); }
+    #header.scrolled .lang-btn.active { background: var(--terracotta); color: var(--cream-white); }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; padding: 4px; background: none; border: none; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--cream-white); border-radius: 2px; transition: background 0.4s; }
+    #header.scrolled .hamburger span { background: var(--olive-deep); }
+
+    /* ═══════════════════════════════════════════════════
+       HERO — full-bleed photo, text overlay
+    ═══════════════════════════════════════════════════ */
+    #hero {
+      position: relative; height: 100svh; min-height: 600px;
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; }
+    .hero-bg img {
+      width: 100%; height: 116%;
+      object-position: center 40%; will-change: transform;
+    }
+    .hero-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background:
+        linear-gradient(to top, rgba(36,33,25,0.82) 0%, rgba(36,33,25,0.3) 45%, rgba(36,33,25,0.15) 100%),
+        linear-gradient(to right, rgba(36,33,25,0.45), transparent 60%);
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: var(--max-w); width: 100%;
+      margin: 0 auto;
+      /* spazio in alto per non toccare l'header, ma contenuto centrato verticalmente */
+      padding: clamp(5rem, 10vh, 8rem) clamp(1.4rem, 5vw, 4rem) clamp(2rem, 5vw, 4rem);
+    }
+    .hero-eyebrow {
+      color: var(--ochre); margin-bottom: 1.3rem;
+      animation: slideUp 0.7s var(--ease) 0.3s both;
+    }
+    .hero-h1 {
+      color: var(--cream-white); max-width: 16ch;
+      margin-bottom: 1.6rem;
+      animation: slideUp 0.8s var(--ease) 0.45s both;
+    }
+    .hero-h1 em { font-style: italic; color: var(--sand); }
+    .hero-lead {
+      color: rgba(255,255,255,0.88); max-width: 46ch;
+      font-size: clamp(1rem, 1.4vw, 1.2rem); font-weight: 400;
+      margin-bottom: 2.6rem;
+      animation: slideUp 0.8s var(--ease) 0.6s both;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: slideUp 0.7s var(--ease) 0.75s both; }
+    .hero-motto {
+      margin-top: 2rem; font-family: var(--f-head); font-style: italic;
+      font-size: 0.92rem; color: rgba(255,255,255,0.55);
+      animation: fadeIn 0.9s ease 1s both;
+    }
+
+    .scroll-cue {
+      position: absolute; bottom: 1.6rem; left: 50%;
+      transform: translateX(-50%); z-index: 2;
+      color: rgba(255,255,255,0.7); font-size: 1.1rem;
+      animation: bob 2s ease-in-out infinite;
+    }
+    @keyframes bob { 0%,100%{transform:translate(-50%,0);} 50%{transform:translate(-50%,8px);} }
+    @keyframes slideUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:none;} }
+    @keyframes fadeIn  { from{opacity:0;} to{opacity:1;} }
+
+    /* ═══════════════════════════════════════════════════
+       NUMERI STRIP
+    ═══════════════════════════════════════════════════ */
+    #numeri {
+      background: var(--sand);
+      padding: clamp(2.5rem,5vw,3.5rem) clamp(1.5rem,5vw,4rem);
+    }
+    .numeri-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; text-align: center;
+    }
+    .num-item { padding: 1rem; }
+    .num-item .big {
+      font-family: var(--f-head); font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 500; color: var(--terracotta);
+      display: block; line-height: 1; margin-bottom: 0.5rem;
+    }
+    .num-item .lbl { font-size: 0.92rem; color: var(--ink-soft); }
+    .num-item:nth-child(2) .big { color: var(--olive); }
+    .num-item:nth-child(3) .big { color: var(--sea); }
+
+    /* ═══════════════════════════════════════════════════
+       SECTION SHELL
+    ═══════════════════════════════════════════════════ */
+    .section { padding: clamp(5rem, 9vw, 9rem) clamp(1.5rem, 5vw, 4rem); }
+    .container { max-width: var(--max-w); margin: 0 auto; }
+    .section-head { text-align: center; margin-bottom: clamp(3rem, 6vw, 5rem); }
+    .section-head h2 { margin: 0.9rem 0 1rem; color: var(--olive-deep); }
+    .section-head p { max-width: 54ch; margin: 0 auto; color: var(--ink-soft); }
+
+    /* ═══════════════════════════════════════════════════
+       REVEAL
+    ═══════════════════════════════════════════════════ */
+    .fi { opacity: 0; transform: translateY(28px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
+    .fi.vis { opacity: 1; transform: none; }
+    .fi-d1 { transition-delay: 0.1s; }
+    .fi-d2 { transition-delay: 0.2s; }
+    .fi-d3 { transition-delay: 0.3s; }
+
+    /* ═══════════════════════════════════════════════════
+       STORIA
+    ═══════════════════════════════════════════════════ */
+    #storia { background: var(--sand-lt); }
+    .storia-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(2.5rem, 6vw, 5.5rem); align-items: start;
+    }
+    .storia-text p { margin-bottom: 1.2rem; color: var(--ink-soft); }
+    .storia-text strong { color: var(--olive-deep); font-weight: 600; }
+    .storia-quote {
+      margin: 2.5rem 0; padding: 1.6rem 2rem;
+      border-radius: var(--r-md);
+      background: var(--sand);
+      border-left: 4px solid var(--terracotta);
+      font-family: var(--f-head); font-style: italic;
+      font-size: 1.18rem; line-height: 1.5; color: var(--olive-deep);
+    }
+    .storia-photos {
+      display: grid; grid-template-rows: 1.5fr 1fr; gap: 1.2rem;
+      height: 640px; position: sticky; top: 6rem;
+    }
+    .storia-photos > div {
+      overflow: hidden; border-radius: var(--r-lg);
+      box-shadow: 0 18px 40px rgba(54,49,42,0.12);
+      position: relative;
+    }
+    .storia-tag {
+      position: absolute; top: 1rem; left: 1rem; z-index: 2;
+      background: rgba(36,33,25,0.78); color: var(--cream-white);
+      font-family: var(--f-body); font-size: 0.66rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 0.4rem 1rem; border-radius: 100px;
+      backdrop-filter: blur(4px);
+    }
+    .storia-photos img { transition: transform 0.7s var(--ease); }
+    .storia-photos > div:hover img { transform: scale(1.05); }
+
+    /* ═══════════════════════════════════════════════════
+       GALLERY
+    ═══════════════════════════════════════════════════ */
+    #galleria { background: var(--sand); padding: clamp(4rem,7vw,6rem) 0; overflow: hidden; }
+    .gall-head { text-align: center; padding: 0 clamp(1.5rem,5vw,4rem); margin-bottom: 2.5rem; }
+    .gall-head h2 { margin: 0.7rem 0 0.4rem; color: var(--olive-deep); }
+    .gall-hint {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      color: var(--terracotta); font-size: 0.74rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.6rem;
+    }
+    .gall-hint i { animation: slideRight 1.5s ease-in-out infinite; }
+    .gall-hint-mobile { display: none; }   /* nascosto di default (desktop) */
+    /* mostra "trascina" SOLO su veri dispositivi touch, non in base alla larghezza finestra */
+    @media (hover: none) and (pointer: coarse) {
+      .gall-hint-mobile { display: inline-flex; }
+      .gall-arrow { display: none; }
+    }
+
+    .gall-wrap { position: relative; }
+    .gall-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      z-index: 5; width: 52px; height: 52px; border-radius: 50%;
+      background: var(--cream-white); border: 1px solid rgba(54,49,42,0.1);
+      color: var(--olive-deep); font-size: 1.1rem; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(54,49,42,0.18);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.28s var(--ease);
+    }
+    .gall-arrow:hover { background: var(--terracotta); color: var(--cream-white); border-color: var(--terracotta); }
+    .gall-arrow:disabled { opacity: 0; pointer-events: none; }
+    .gall-prev { left: clamp(0.6rem, 2vw, 1.6rem); }
+    .gall-next { right: clamp(0.6rem, 2vw, 1.6rem); }
+    @keyframes slideRight { 0%,100%{transform:translateX(0);} 50%{transform:translateX(6px);} }
+
+    .gall-track {
+      display: flex; gap: 1.3rem;
+      padding: 0.5rem clamp(1.5rem,5vw,4rem);
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; cursor: grab;
+    }
+    .gall-track:active { cursor: grabbing; }
+    .gall-track::-webkit-scrollbar { display: none; }
+    .gall-item {
+      flex: 0 0 calc(33% - 0.9rem); scroll-snap-align: start;
+      aspect-ratio: 4/5; overflow: hidden; border-radius: var(--r-lg);
+      box-shadow: 0 14px 34px rgba(54,49,42,0.12);
+      opacity: 0; transform: translateX(40px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .gall-item.vis { opacity: 1; transform: none; }
+    .gall-item:nth-child(2){transition-delay:.1s;}
+    .gall-item:nth-child(3){transition-delay:.2s;}
+    .gall-item:nth-child(4){transition-delay:.3s;}
+    .gall-item:nth-child(5){transition-delay:.4s;}
+    .gall-item:nth-child(6){transition-delay:.5s;}
+    .gall-item img { transition: transform 0.6s var(--ease); }
+    .gall-item:hover img { transform: scale(1.06); }
+
+    /* ═══════════════════════════════════════════════════
+       PRODOTTI
+    ═══════════════════════════════════════════════════ */
+    #prodotti { background: var(--sand-lt); }
+    .avail-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 1.3rem; padding: 0.5rem 1.4rem; border-radius: 100px;
+      background: var(--sand); color: var(--clay);
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .prodotto {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(2.5rem, 6vw, 5.5rem); align-items: center;
+      margin-bottom: clamp(4rem, 8vw, 6.5rem);
+    }
+    .prodotto:last-of-type { margin-bottom: 0; }
+    .prodotto.inv .p-img  { order: 2; }
+    .prodotto.inv .p-info { order: 1; }
+    .p-img {
+      aspect-ratio: 4/5; overflow: hidden; border-radius: var(--r-lg);
+      box-shadow: 0 20px 44px rgba(54,49,42,0.14);
+    }
+    .p-img img { transition: transform 0.7s var(--ease); }
+    .p-img:hover img { transform: scale(1.05); }
+    .p-num {
+      font-family: var(--f-head); font-style: italic;
+      font-size: 1rem; color: var(--clay); margin-bottom: 0.6rem;
+    }
+    .p-info h3 { color: var(--olive-deep); margin: 0.4rem 0 1.1rem; }
+    .p-info p { color: var(--ink-soft); max-width: 44ch; }
+    .p-info p + p { margin-top: 0.9rem; }
+    .badges { display: flex; gap: 0.7rem; flex-wrap: wrap; margin: 1.4rem 0; }
+    .badge {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.03em;
+      padding: 0.4rem 0.95rem; border-radius: 100px;
+    }
+    .badge.g { background: rgba(111,122,69,0.14); color: var(--olive-deep); }
+    .badge.r { background: rgba(192,98,63,0.14); color: var(--terracotta); }
+    .badge.s { background: rgba(47,93,99,0.14); color: var(--sea); }
+
+    /* ═══════════════════════════════════════════════════
+       NEWS
+    ═══════════════════════════════════════════════════ */
+    #news { background: var(--sand); }
+    .news-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 2rem;
+    }
+    .news-card {
+      background: var(--cream-white); border-radius: var(--r-lg); overflow: hidden;
+      box-shadow: 0 14px 36px rgba(54,49,42,0.1);
+      display: flex; flex-direction: column;
+      transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+    }
+    .news-card:hover { transform: translateY(-4px); box-shadow: 0 20px 46px rgba(54,49,42,0.16); }
+    .news-card-img { aspect-ratio: 16/10; overflow: hidden; background: var(--sand); }
+    .news-card-img img { transition: transform 0.6s var(--ease); }
+    .news-card:hover .news-card-img img { transform: scale(1.05); }
+    .news-card-body { padding: 1.6rem 1.7rem 1.8rem; display: flex; flex-direction: column; flex: 1; }
+    .news-date {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--terracotta); margin-bottom: 0.7rem;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .news-card h3 { font-size: 1.35rem; color: var(--olive-deep); margin-bottom: 0.8rem; line-height: 1.15; }
+    .news-card .news-text { color: var(--ink-soft); font-size: 0.95rem; margin-bottom: 1.2rem; white-space: pre-line; }
+    .news-attachments { display: flex; flex-direction: column; gap: 0.6rem; margin-top: auto; }
+    .news-att {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.6rem 1rem; border-radius: var(--r-sm);
+      background: var(--sand-lt); font-size: 0.85rem; font-weight: 500;
+      color: var(--olive-deep); transition: background 0.25s, transform 0.25s;
+      align-self: flex-start;
+    }
+    .news-att:hover { background: var(--sand); transform: translateX(3px); }
+    .news-att.is-link { color: var(--terracotta); }
+    .news-att i { font-size: 0.9rem; }
+    .news-empty {
+      text-align: center; color: var(--ink-soft); font-family: var(--f-head);
+      font-style: italic; font-size: 1.15rem; padding: 2rem 0;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       OSPITALITÀ — sea-toned section
+    ═══════════════════════════════════════════════════ */
+    #ospitalita { background: var(--sea); }
+    .osp-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(3rem, 7vw, 6rem); align-items: center;
+    }
+    .osp-img {
+      aspect-ratio: 4/5; overflow: hidden; border-radius: var(--r-lg);
+      box-shadow: 0 22px 50px rgba(0,0,0,0.25);
+    }
+    .osp-img img { transition: transform 0.7s var(--ease); }
+    .osp-img:hover img { transform: scale(1.05); }
+    .osp-text .eyebrow { color: var(--ochre); }
+    .osp-text h2 { color: var(--cream-white); margin: 0.8rem 0 1.4rem; }
+    .osp-text p  { color: rgba(255,255,255,0.82); margin-bottom: 1.1rem; }
+    .osp-list { list-style: none; margin: 2rem 0 2.8rem; }
+    .osp-list li {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 0.85rem 0; border-bottom: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.85); font-size: 0.98rem;
+    }
+    .osp-list li:first-child { border-top: 1px solid rgba(255,255,255,0.12); }
+    .osp-list li i { color: var(--ochre); margin-top: 0.3rem; flex-shrink: 0; width: 18px; }
+    .osp-booking { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
+    .book-btn {
+      display: inline-flex; align-items: center; gap: 0.85rem;
+      padding: 0.85rem 1.4rem; border-radius: var(--r-md);
+      background: var(--cream-white); transition: all 0.3s var(--ease);
+      flex: 1; min-width: 200px;
+    }
+    .book-btn i { font-size: 1.5rem; flex-shrink: 0; }
+    .book-btn span { display: flex; flex-direction: column; line-height: 1.25; }
+    .book-btn strong { font-size: 0.98rem; color: var(--ink); }
+    .book-btn small { font-size: 0.74rem; color: var(--ink-soft); }
+    .book-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0,0,0,0.22); }
+    .book-booking i { color: #003580; }
+    .book-airbnb  i { color: #ff385c; }
+
+    /* ═══════════════════════════════════════════════════
+       CONTATTI
+    ═══════════════════════════════════════════════════ */
+    #contatti { background: var(--sand-lt); }
+    .c-grid {
+      display: grid; grid-template-columns: 1fr 1.3fr;
+      gap: clamp(2.5rem, 6vw, 5rem); align-items: start;
+    }
+    .c-info h3 { color: var(--olive-deep); margin-bottom: 2rem; font-size: 1.3rem; }
+    .c-item { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.7rem; }
+    .c-item .ic {
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+      background: var(--sand); color: var(--terracotta);
+      display: flex; align-items: center; justify-content: center; font-size: 0.95rem;
+    }
+    .c-item div { font-size: 0.96rem; padding-top: 0.15rem; }
+    .c-item strong {
+      display: block; font-size: 0.66rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--clay); margin-bottom: 0.25rem;
+    }
+    .c-note {
+      margin-top: 2.4rem; padding: 1.3rem 1.6rem; border-radius: var(--r-md);
+      background: var(--sand); border-left: 4px solid var(--terracotta);
+      font-style: italic; font-size: 0.92rem; color: var(--ink-soft);
+      font-family: var(--f-head);
+    }
+    .maps-link {
+      display: inline-flex; align-items: center; gap: 0.6rem; margin-top: 1.8rem;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em;
+      color: var(--terracotta); border-bottom: 2px solid var(--terracotta);
+      padding-bottom: 3px; transition: opacity 0.25s;
+    }
+    .maps-link:hover { opacity: 0.65; }
+
+    .c-form {
+      background: var(--cream-white); border-radius: var(--r-lg);
+      padding: clamp(2rem, 4vw, 3.4rem);
+      box-shadow: 0 20px 50px rgba(54,49,42,0.1);
+    }
+    .c-form h3 { color: var(--olive-deep); margin-bottom: 2.2rem; font-size: 1.4rem; }
+    .f-group { margin-bottom: 1.8rem; }
+    .f-group label {
+      display: block; font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--clay); margin-bottom: 0.6rem; transition: color 0.25s;
+    }
+    .f-group:focus-within label { color: var(--terracotta); }
+    .f-group input, .f-group textarea {
+      width: 100%; border: 1.5px solid rgba(54,49,42,0.14);
+      border-radius: var(--r-sm); background: var(--sand-lt);
+      padding: 0.85rem 1rem; font-family: var(--f-body);
+      font-size: 1rem; color: var(--ink); outline: none; resize: none;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .f-group input::placeholder, .f-group textarea::placeholder { color: rgba(54,49,42,0.35); }
+    .f-group input:focus, .f-group textarea:focus { border-color: var(--terracotta); background: var(--cream-white); }
+    .f-group.err input, .f-group.err textarea { border-color: #c0392b; }
+    .f-group .err-txt { display: none; font-size: 0.72rem; color: #c0392b; margin-top: 0.4rem; }
+    .f-group.err .err-txt { display: block; }
+    .f-group textarea { min-height: 130px; }
+    .f-submit {
+      width: 100%; background: var(--terracotta); color: var(--cream-white);
+      border: none; padding: 1.05rem; border-radius: 100px;
+      font-family: var(--f-body); font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.06em; transition: all 0.3s var(--ease);
+      box-shadow: 0 8px 22px rgba(192,98,63,0.28);
+    }
+    .f-submit:hover { background: #ab5435; transform: translateY(-2px); }
+    .f-note { font-size: 0.74rem; color: var(--ink-soft); text-align: center; margin-top: 1rem; }
+    .f-success { display: none; text-align: center; padding: 3rem 1rem; }
+    .f-success i { font-size: 2.4rem; color: var(--olive); display: block; margin-bottom: 1rem; }
+    .f-success h3 { color: var(--olive-deep); margin-bottom: 0.6rem; }
+    .f-success p { color: var(--ink-soft); }
+
+    /* ═══════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════ */
+    footer {
+      background: var(--olive-deep); color: rgba(255,255,255,0.6);
+      padding: clamp(3.5rem,6vw,5rem) clamp(1.5rem,5vw,4rem) 2.2rem;
+    }
+    .foot-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 2.5rem;
+      padding-bottom: 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    .f-brand .brand {
+      font-family: var(--f-head); font-size: 1.5rem; font-weight: 500;
+      color: var(--cream-white); letter-spacing: 0.04em; display: block; margin-bottom: 0.3rem;
+    }
+    .f-brand .sub {
+      font-size: 0.62rem; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(255,255,255,0.45);
+      display: block; margin-bottom: 1.1rem;
+    }
+    .f-brand p { font-size: 0.92rem; line-height: 1.7; }
+    .f-col h4 {
+      font-family: var(--f-body); font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--cream-white); margin-bottom: 1.3rem;
+    }
+    .f-col ul { list-style: none; }
+    .f-col ul li { margin-bottom: 0.7rem; font-size: 0.92rem; }
+    .f-col ul li a { transition: color 0.25s; }
+    .f-col ul li a:hover { color: var(--cream-white); }
+    .foot-bottom {
+      max-width: var(--max-w); margin: 1.8rem auto 0;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.78rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .foot-motto { font-family: var(--f-head); font-style: italic; color: rgba(255,255,255,0.4); }
+
+    /* ═══════════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════════ */
+    @media (max-width: 920px) {
+      .storia-grid { grid-template-columns: 1fr; }
+      .storia-photos { height: 400px; position: static; }
+      .gall-item { flex: 0 0 calc(72% - 0.7rem); }
+      .gall-arrow { display: none; }              /* su mobile niente frecce */
+      .prodotto, .prodotto.inv { grid-template-columns: 1fr; }
+      .prodotto.inv .p-img { order: 0; }
+      .prodotto.inv .p-info { order: 0; }
+      .p-img { aspect-ratio: 4/3; }
+      .osp-grid { grid-template-columns: 1fr; }
+      .osp-img { aspect-ratio: 16/10; }
+      .c-grid { grid-template-columns: 1fr; }
+      .foot-inner { grid-template-columns: 1fr; gap: 2rem; }
+      nav.main-nav { display: none; }
+      .hamburger { display: flex; }
+    }
+    @media (max-width: 500px) {
+      .section { padding: 4rem 1.3rem; }
+      .c-form { padding: 1.8rem 1.3rem; }
+      .numeri-inner { grid-template-columns: 1fr; gap: 0.5rem; }
+      .gall-item { flex: 0 0 calc(86% - 0.7rem); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .fi, .gall-item { opacity: 1; transform: none; transition: none; }
+      .hero-eyebrow,.hero-h1,.hero-lead,.hero-btns,.hero-motto { animation: none; opacity: 1; }
+      body { opacity: 1; } html { scroll-behavior: auto; }
+      .scroll-cue { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav">
+  <button class="mob-close" onclick="closeMobileNav()"><i class="fa fa-times"></i></button>
+  <a href="#storia"     onclick="closeMobileNav()" data-i18n="nav.storia">La Nostra Storia</a>
+  <a href="#prodotti"   onclick="closeMobileNav()" data-i18n="nav.prodotti">I Prodotti</a>
+  <a href="#news"       onclick="closeMobileNav()" data-i18n="nav.news">News</a>
+  <a href="#ospitalita" onclick="closeMobileNav()" data-i18n="nav.ospitalita">Ospitalità</a>
+  <a href="#contatti"   onclick="closeMobileNav()" data-i18n="nav.contatti">Contatti</a>
+  <div style="display:flex;gap:1.6rem;margin-top:0.8rem;font-size:2rem;">
+    <a href="https://wa.me/390587723541" target="_blank" rel="noopener" aria-label="WhatsApp ELOGI"><i class="fa-brands fa-whatsapp"></i></a>
+    <a href="https://www.instagram.com/elogibuti" target="_blank" rel="noopener" aria-label="Instagram ELOGI"><i class="fa-brands fa-instagram"></i></a>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header id="header">
+  <a href="#" class="h-logo">
+    <img src="images/logo-elogi.png" alt="Logo ELOGI" class="h-logo-img">
+    <span class="h-logo-text">
+      <span class="brand">ELOGI</span>
+      <span class="sub" data-i18n="header.sub">Società Agricola Semplice · Buti, Toscana</span>
+    </span>
+  </a>
+  <div class="h-right">
+    <nav class="main-nav">
+      <a href="#storia"     data-i18n="nav.storia">La Nostra Storia</a>
+      <a href="#prodotti"   data-i18n="nav.prodotti">I Prodotti</a>
+      <a href="#news"       data-i18n="nav.news">News</a>
+      <a href="#ospitalita" data-i18n="nav.ospitalita">Ospitalità</a>
+      <a href="#contatti"   class="nav-cta" data-i18n="nav.contatti">Contatti</a>
+    </nav>
+    <a href="https://wa.me/390587723541" target="_blank" rel="noopener" class="wa-link" aria-label="WhatsApp ELOGI">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <a href="https://www.instagram.com/elogibuti" target="_blank" rel="noopener" class="ig-link" aria-label="Instagram ELOGI">
+      <i class="fa-brands fa-instagram"></i>
+    </a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('it')">IT</button>
+      <button class="lang-btn"        onclick="setLang('en')">EN</button>
+    </div>
+    <button class="hamburger" onclick="openMobileNav()"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg">
+    <img src="images/olio-albero.jpg"
+         alt="Bottiglia di olio extravergine ELOGI tra gli ulivi di Buti" loading="eager">
+  </div>
+  <div class="hero-inner">
+        <h1 class="hero-h1">
+      <span data-i18n="hero.h1a">Prodotti Genuini</span><br>
+      <em data-i18n="hero.h1b">dalla terra di famiglia</em>
+    </h1>
+    <p class="hero-lead" data-i18n="hero.lead">Olio Extravergine di Oliva e Farro biologici coltivati sui Monti Pisani.</p>
+    <div class="hero-btns">
+      <a href="#prodotti" class="btn btn-primary">
+        <i class="fa-solid fa-leaf"></i>
+        <span data-i18n="hero.cta1">I nostri prodotti</span>
+      </a>
+      <a href="#storia" class="btn btn-ghost">
+        <span data-i18n="hero.cta2">La nostra storia</span>
+      </a>
+    </div>
+    <p class="hero-motto">Omnibus Iustissima Tellus</p>
+  </div>
+  <a href="#numeri" class="scroll-cue" aria-label="Scorri"><i class="fa-solid fa-chevron-down"></i></a>
+</section>
+
+<!-- NUMERI -->
+<div id="numeri">
+  <div class="numeri-inner">
+    <div class="num-item fi">
+      <span class="big" data-count="3">0</span>
+      <span class="lbl" data-i18n="num.1">Generazioni di famiglia</span>
+    </div>
+    <div class="num-item fi fi-d1">
+      <span class="big" data-count="60" data-suffix="+">0</span>
+      <span class="lbl" data-i18n="num.2">Anni di coltivazione</span>
+    </div>
+    <div class="num-item fi fi-d2">
+      <span class="big" data-count="100" data-suffix="%">0</span>
+      <span class="lbl" data-i18n="num.3">Biologico certificato</span>
+    </div>
+  </div>
+</div>
+
+<!-- STORIA -->
+<section id="storia" class="section">
+  <div class="container">
+    <div class="section-head fi">
+      <p class="eyebrow" data-i18n="storia.eyebrow">Chi siamo</p>
+      <h2 data-i18n="storia.h2">Le radici che affondano nella terra</h2>
+      <p data-i18n="storia.intro">Una storia cominciata quando i nostri nonni mezzadri liberarono dai rovi il primo appezzamento.</p>
+    </div>
+    <div class="storia-grid">
+      <div class="storia-text fi fi-d1">
+        <p data-i18n="storia.p1">Nei Monti Pisani, in località La Croce, la storia della nostra azienda agricola affonda le sue radici in oltre tre generazioni di lavoro, sacrificio e amore per la terra.</p>
+        <p data-i18n="storia.p2">Tutto ebbe inizio quando i nostri nonni, <strong>Mario Leporini e Nara Tognetti</strong>, lavoravano questa terra come mezzadri, prendendosi cura del primo appezzamento con dedizione e rispetto. Quello che oggi appare come un paesaggio ordinato e produttivo era allora un terreno incolto, coperto da rovi. Con pazienza e tante ore di lavoro manuale, iniziarono a trasformarlo in una realtà agricola viva e fertile.</p>
+        <p data-i18n="storia.p3">Il testimone è poi passato a <strong>Pier-Luigi Pasqualetto e Uliana Leporini</strong>, che hanno continuato a custodire questo patrimonio, mantenendo intatti i valori che ne hanno accompagnato la nascita.</p>
+        <p data-i18n="storia.p4">ELOGI Società Agricola Semplice nasce dalle iniziali dei nomi della nuova generazione della famiglia: <strong>Elena, Lorenzo e Giulia</strong>.</p>
+        <blockquote class="storia-quote" data-i18n="storia.quote">"La terra è madre e maestra." — Marco Tullio Cicerone</blockquote>
+        <div class="leaf-rule"><i class="fa-solid fa-leaf"></i></div>
+        <a href="#prodotti" class="btn btn-outline-dark">
+          <i class="fa-solid fa-arrow-down"></i>
+          <span data-i18n="storia.cta">Scopri i nostri prodotti</span>
+        </a>
+      </div>
+      <div class="storia-photos fi fi-d2">
+        <div class="storia-photo"><img src="images/storia-prima.jpg" alt="Il terreno coperto dai rovi, prima dell'intervento della famiglia" loading="lazy"><span class="storia-tag" data-i18n="storia.prima">Prima</span></div>
+        <div class="storia-photo"><img src="images/storia-dopo.jpg" alt="L'oliveto curato di oggi, dopo la bonifica dai rovi" loading="lazy"><span class="storia-tag" data-i18n="storia.dopo">Dopo</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERIA -->
+<section id="galleria">
+  <div class="gall-head fi">
+    <p class="eyebrow" data-i18n="gall.eyebrow">La nostra terra</p>
+    <span class="gall-hint gall-hint-mobile"><i class="fa-solid fa-arrow-right"></i> <span data-i18n="gall.hint">Trascina per esplorare</span></span>
+  </div>
+  <div class="gall-wrap">
+    <button class="gall-arrow gall-prev" id="gallPrev" aria-label="Foto precedenti"><i class="fa-solid fa-chevron-left"></i></button>
+    <div class="gall-track" id="gallTrack">
+      <figure class="gall-item"><img src="images/galleria-reti.jpg" alt="Le reti stese sotto gli ulivi durante la raccolta sui Monti Pisani" loading="lazy"></figure>
+      <figure class="gall-item"><img src="images/galleria-olive.jpg" alt="Olive appena raccolte, verdi e nere, con le foglie" loading="lazy"></figure>
+      <figure class="gall-item"><img src="images/galleria-frantoio-persona.jpg" alt="Le olive aziendali pronte per la molitura al frantoio" loading="lazy"></figure>
+      <figure class="gall-item"><img src="images/galleria-olio-frantoio.jpg" alt="L'olio extravergine ELOGI che cola dal frantoio" loading="lazy"></figure>
+      <figure class="gall-item"><img src="images/olio-ulivi-alto.jpg" alt="Gli ulivi di ELOGI sui Monti Pisani" loading="lazy"></figure>
+      <figure class="gall-item"><img src="images/olio-albero.jpg" alt="Bottiglia ELOGI nell'incavo di un ulivo" loading="lazy"></figure>
+      <!-- Aggiungi altre foto: <figure class="gall-item"><img src="images/tua-foto.jpg" alt="..."></figure> -->
+    </div>
+    <button class="gall-arrow gall-next" id="gallNext" aria-label="Foto successive"><i class="fa-solid fa-chevron-right"></i></button>
+  </div>
+</section>
+
+<!-- PRODOTTI -->
+<section id="prodotti" class="section">
+  <div class="container">
+    <div class="section-head fi">
+      <p class="eyebrow" data-i18n="prod.eyebrow">Dal campo alla tavola</p>
+      <h2 data-i18n="prod.h2">I nostri prodotti</h2>
+      <p data-i18n="prod.sub">Coltivati senza fitofarmaci, nel rispetto dell'ambiente e delle tradizioni locali.</p>
+      <span class="avail-tag"><i class="fa-solid fa-seedling"></i> <span data-i18n="prod.avail">Produzione limitata — contattateci per disponibilità</span></span>
+    </div>
+
+    <article class="prodotto fi">
+      <div class="p-img"><img src="images/olio-albero.jpg" alt="Olio EVO ELOGI 750ml" loading="lazy"></div>
+      <div class="p-info">
+        <p class="p-num" data-i18n="p1.num">Prodotto 01</p>
+        <p class="eyebrow" data-i18n="p1.eyebrow">Olio extravergine di oliva BIO</p>
+        <h3 data-i18n="p1.h3">ELOGI — Olio EVO BIO</h3>
+        <div class="badges">
+          <span class="badge g" data-i18n="p1.b1">🌿 Produzione propria</span>
+          <span class="badge r">5l · 3l · 2l · 750ml · 500ml · 250ml</span>
+        </div>
+        <p data-i18n="p1.d1">Estratto a freddo dalle nostre olive, raccolte a mano sui Monti Pisani. Un olio che racchiude forza, passione e dedizione — il frutto di un anno intero di lavoro.</p>
+        <p data-i18n="p1.d2">Ogni annata è diversa, ogni bottiglia è la storia di quella stagione. La produzione è limitata.</p>
+        <div class="leaf-rule"><i class="fa-solid fa-leaf"></i></div>
+        <a href="#contatti" class="btn btn-olive"><i class="fa-solid fa-envelope"></i> <span data-i18n="p1.cta">Chiedi disponibilità</span></a>
+      </div>
+    </article>
+
+    <article class="prodotto inv fi">
+      <div class="p-img"><img src="images/farro-nuovo.jpg" alt="Farro Dicocco Biologico Perlato Toscano ELOGI, confezioni da 500g" loading="lazy"></div>
+      <div class="p-info">
+        <p class="p-num" data-i18n="p2.num">Prodotto 02</p>
+        <p class="eyebrow" data-i18n="p2.eyebrow">Cereale antico toscano</p>
+        <h3 data-i18n="p2.h3">Farro Dicocco Biologico Perlato</h3>
+        <div class="badges">
+          <span class="badge g" data-i18n="p2.b1">🌾 Biologico certificato</span>
+          <span class="badge r" data-i18n="p2.b2">500 g · Toscano</span>
+        </div>
+        <p data-i18n="p2.d1">Il farro dicocco è uno dei cereali più antichi del Mediterraneo.</p>
+        <p data-i18n="p2.d2">Perfetto per zuppe rustiche, insalate e i piatti della tradizione toscana.</p>
+        <div class="leaf-rule"><i class="fa-solid fa-leaf"></i></div>
+        <a href="#contatti" class="btn btn-olive"><i class="fa-solid fa-envelope"></i> <span data-i18n="p2.cta">Chiedi disponibilità</span></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section id="news" class="section">
+  <div class="container">
+    <div class="section-head fi">
+      <p class="eyebrow" data-i18n="news.eyebrow">Aggiornamenti</p>
+      <h2 data-i18n="news.h2">News dall'azienda</h2>
+      <p data-i18n="news.sub">Novità, eventi, mercati e tutto ciò che succede nelle nostre colline.</p>
+    </div>
+    <div id="newsList" class="news-grid">
+      <!-- Le news vengono caricate qui automaticamente dal pannello -->
+    </div>
+    <p id="newsEmpty" class="news-empty" style="display:none;" data-i18n="news.empty">
+      Nessuna novità al momento. Torna presto a trovarci!
+    </p>
+  </div>
+</section>
+
+<!-- OSPITALITÀ -->
+<section id="ospitalita" class="section">
+  <div class="container">
+    <div class="osp-grid">
+      <div class="osp-img fi"><img src="images/agriturismo-interno.jpg" alt="Interno luminoso dell'appartamento ELOGI a Buti, con tavola apparecchiata e vista" loading="lazy"></div>
+      <div class="osp-text fi fi-d1">
+        <p class="eyebrow" data-i18n="osp.eyebrow">Locazione turistica</p>
+        <h2 data-i18n="osp.h2">Casa ELOGI</h2>
+        <p data-i18n="osp.p1">Casa Elogi è un'accogliente struttura familiare situata nella frazione La Croce del grazioso comune di Buti, provincia di Pisa. Struttura di nuova costruzione, accogliente e luminosa, adatta per chi cerca un soggiorno sereno e tranquillo.</p>
+        <ul class="osp-list">
+          <li><i class="fa-solid fa-house"></i> <span data-i18n="osp.f1">Locazione turistica</span></li>
+          <li><i class="fa-solid fa-map-location-dot"></i> <span data-i18n="osp.f2">A pochi km da Pisa, Lucca e Firenze</span></li>
+          <li><i class="fa-solid fa-jar"></i> <span data-i18n="osp.f3">I nostri prodotti disponibili direttamente in azienda</span></li>
+          <li><i class="fa-solid fa-leaf"></i> <span data-i18n="osp.f4">Silenzio, aria pulita e sapori genuini a km zero</span></li>
+        </ul>
+        <div class="osp-booking">
+          <a href="https://www.booking.com/Share-u5uFSm" target="_blank" rel="noopener" class="book-btn book-booking">
+            <i class="fa-solid fa-bed"></i>
+            <span><strong>Booking.com</strong><small data-i18n="osp.book.booking">Prenota o leggi le recensioni</small></span>
+          </a>
+          <a href="https://www.airbnb.it/rooms/1144841058934594487" target="_blank" rel="noopener" class="book-btn book-airbnb">
+            <i class="fa-brands fa-airbnb"></i>
+            <span><strong>Airbnb</strong><small data-i18n="osp.book.airbnb">Guarda l'annuncio e le recensioni</small></span>
+          </a>
+        </div>
+        <a href="#contatti" class="btn btn-ghost"><i class="fa-solid fa-envelope"></i> <span data-i18n="osp.cta">Richiedi informazioni</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATTI -->
+<section id="contatti" class="section">
+  <div class="container">
+    <div class="section-head fi">
+      <p class="eyebrow" data-i18n="cont.eyebrow">Contatti</p>
+      <h2 data-i18n="cont.h2">Scrivici o vieni a trovarci</h2>
+    </div>
+    <div class="c-grid">
+      <div class="c-info fi">
+        <h3 data-i18n="cont.where">Dove siamo</h3>
+        <div class="c-item">
+          <div class="ic"><i class="fa-solid fa-location-dot"></i></div>
+          <div><strong data-i18n="cont.addr.lbl">Indirizzo</strong>Via vecchia delle vigne, 44<br>56032 Buti (PI), Toscana</div>
+        </div>
+        <div class="c-item">
+          <div class="ic"><i class="fa-solid fa-phone"></i></div>
+          <div><strong data-i18n="cont.phone.lbl">Telefono</strong><a href="tel:+390587723541">+39 0587 723541</a></div>
+        </div>
+        <div class="c-item">
+          <div class="ic" style="color:#25D366;"><i class="fa-brands fa-whatsapp"></i></div>
+          <div><strong data-i18n="cont.wa.lbl">WhatsApp</strong><a href="https://wa.me/390587723541" target="_blank" rel="noopener" data-i18n="cont.wa.txt">Scrivici su WhatsApp</a></div>
+        </div>
+        <div class="c-item">
+          <div class="ic"><i class="fa-solid fa-envelope"></i></div>
+          <div><strong data-i18n="cont.email.lbl">Email</strong><a href="mailto:info.agrielogi@gmail.com">info.agrielogi@gmail.com</a></div>
+        </div>
+        <div class="c-item">
+          <div class="ic"><i class="fa-solid fa-basket-shopping"></i></div>
+          <div><strong data-i18n="cont.buy.lbl">Come acquistare</strong><span data-i18n="cont.buy.txt">Produzione familiare e limitata. Contattateci direttamente per disponibilità e modalità di acquisto in azienda.</span></div>
+        </div>
+        <div class="c-note" data-i18n="cont.note">Siamo una piccola azienda agricola familiare. Non abbiamo un negozio online: scriveteci e vi risponderemo di persona il prima possibile.</div>
+        <a href="https://maps.google.com/?q=Via+vecchia+delle+vigne+44+Buti+PI" target="_blank" rel="noopener" class="maps-link">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> <span data-i18n="cont.maps">Apri in Google Maps</span>
+        </a>
+      </div>
+      <div class="c-form fi fi-d1">
+        <h3 data-i18n="form.title">Inviaci un messaggio</h3>
+        <div id="fSuccess" class="f-success">
+          <i class="fa-solid fa-circle-check"></i>
+          <h3 data-i18n="form.ok.title">Messaggio inviato!</h3>
+          <p data-i18n="form.ok.txt">Grazie per averci scritto. Vi risponderemo il prima possibile.</p>
+        </div>
+        <form id="cForm" novalidate>
+          <div class="f-group" id="ge">
+            <label for="email" data-i18n="form.email.lbl">La tua email *</label>
+            <input type="email" id="email" name="email" data-i18n-placeholder="form.email.ph" placeholder="mario.rossi@esempio.it" autocomplete="email">
+            <span class="err-txt" data-i18n="form.email.err">Inserisci un indirizzo email valido.</span>
+          </div>
+          <div class="f-group" id="gm">
+            <label for="msg" data-i18n="form.msg.lbl">Il tuo messaggio *</label>
+            <textarea id="msg" name="msg" rows="6" data-i18n-placeholder="form.msg.ph" placeholder="Scrivi qui la tua richiesta — prodotti, prezzi, ospitalità, visita in azienda..."></textarea>
+            <span class="err-txt" data-i18n="form.msg.err">Scrivi il tuo messaggio prima di inviare.</span>
+          </div>
+          <button type="submit" class="f-submit"><i class="fa-solid fa-paper-plane"></i>&nbsp; <span data-i18n="form.send">Invia il messaggio</span></button>
+          <p class="f-note" data-i18n="form.note">* Campi obbligatori. I vostri dati non saranno mai condivisi con terzi.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="f-brand">
+      <span class="brand">ELOGI</span>
+      <span class="sub">Società Agricola Semplice</span>
+      <p data-i18n="foot.desc">Tre generazioni di agricoltura familiare sulle colline di Buti, in provincia di Pisa. Olio extravergine di oliva, farro biologico e ospitalità rurale autentica.</p>
+    </div>
+    <div class="f-col">
+      <h4 data-i18n="foot.nav">Naviga</h4>
+      <ul>
+        <li><a href="#storia" data-i18n="nav.storia">La Nostra Storia</a></li>
+        <li><a href="#prodotti" data-i18n="nav.prodotti">I Prodotti</a></li>
+        <li><a href="#news" data-i18n="nav.news">News</a></li>
+        <li><a href="#ospitalita" data-i18n="nav.ospitalita">Ospitalità</a></li>
+        <li><a href="#contatti" data-i18n="nav.contatti">Contatti</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4 data-i18n="foot.where">Dove siamo</h4>
+      <ul>
+        <li><a href="https://maps.google.com/?q=Via+vecchia+delle+vigne+44+Buti+PI" target="_blank" rel="noopener">Via vecchia delle vigne, 44<br>56032 Buti (PI)</a></li>
+        <li><a href="tel:+390587723541">+39 0587 723541</a></li>
+        <li><a href="mailto:info.agrielogi@gmail.com">info.agrielogi@gmail.com</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4 data-i18n="foot.follow">Seguici</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/elogibuti" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i>&nbsp;&nbsp;@elogibuti</a></li>
+        <li><a href="https://wa.me/390587723541" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i>&nbsp;&nbsp;WhatsApp</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span data-i18n="foot.copy">© 2025 ELOGI Società Agricola Semplice · Buti (PI) · P.IVA e C.F. 02524020506</span>
+    <span class="foot-motto">Omnibus Iustissima Tellus</span>
+  </div>
+</footer>
+
+<script>
+/* ── TRANSLATIONS ── */
+const T = {
+  it: {
+    'header.sub':'Società Agricola Semplice · Buti, Toscana',
+    'nav.storia':'La Nostra Storia','nav.prodotti':'I Prodotti','nav.news':'News','nav.ospitalita':'Ospitalità','nav.contatti':'Contatti',
+    'news.eyebrow':'Aggiornamenti','news.h2':"News dall'azienda",'news.sub':'Novità, eventi, mercati e tutto ciò che succede nelle nostre colline.','news.empty':'Nessuna novità al momento. Torna presto a trovarci!',
+    'hero.eyebrow':'',
+    'hero.h1a':'Prodotti Genuini','hero.h1b':'dalla terra di famiglia',
+    'hero.lead':"Olio Extravergine di Oliva e Farro biologici coltivati sui Monti Pisani.",
+    'hero.cta1':'I nostri prodotti','hero.cta2':'La nostra storia',
+    'num.1':'Generazioni di famiglia','num.2':'Anni di coltivazione','num.3':'Biologico certificato',
+    'storia.eyebrow':'Chi siamo','storia.h2':'Le radici che affondano nella terra',
+    'storia.intro':'Una storia cominciata quando i nostri nonni mezzadri liberarono dai rovi il primo appezzamento.',
+    'storia.p1':'Nei Monti Pisani, in località La Croce, la storia della nostra azienda agricola affonda le sue radici in oltre tre generazioni di lavoro, sacrificio e amore per la terra.',
+    'storia.p2':'Tutto ebbe inizio quando i nostri nonni, <strong>Mario Leporini e Nara Tognetti</strong>, lavoravano questa terra come mezzadri, prendendosi cura del primo appezzamento con dedizione e rispetto. Quello che oggi appare come un paesaggio ordinato e produttivo era allora un terreno incolto, coperto da rovi. Con pazienza e tante ore di lavoro manuale, iniziarono a trasformarlo in una realtà agricola viva e fertile.',
+    'storia.p3':'Il testimone è poi passato a <strong>Pier-Luigi Pasqualetto e Uliana Leporini</strong>, che hanno continuato a custodire questo patrimonio, mantenendo intatti i valori che ne hanno accompagnato la nascita.',
+    'storia.p4':"ELOGI Società Agricola Semplice nasce dalle iniziali dei nomi della nuova generazione della famiglia: Elena, Lorenzo e Giulia.",
+    'storia.quote':'"La terra è madre e maestra." — Marco Tullio Cicerone',
+    'storia.prima':'Prima','storia.dopo':'Dopo',
+    'storia.cta':'Scopri i nostri prodotti',
+    'gall.eyebrow':'La nostra terra','gall.hint':'Trascina per esplorare',
+    'prod.eyebrow':'Dal campo alla tavola','prod.h2':'I nostri prodotti',
+    'prod.sub':"Coltivati senza fitofarmaci, nel rispetto dell'ambiente e delle tradizioni locali.",
+    'prod.avail':'Produzione limitata — contattateci per disponibilità',
+    'p1.num':'Prodotto 01','p1.eyebrow':'Olio extravergine di oliva BIO','p1.h3':'ELOGI — Olio EVO BIO','p1.b1':'🌿 Produzione propria',
+    'p1.d1':"Estratto a freddo dalle nostre olive, raccolte a mano sui Monti Pisani. Un olio che racchiude forza, passione e dedizione — il frutto di un anno intero di lavoro.",
+    'p1.d2':'Ogni annata è diversa, ogni bottiglia è la storia di quella stagione. La produzione è limitata.',
+    'p1.cta':'Chiedi disponibilità',
+    'p2.num':'Prodotto 02','p2.eyebrow':'Cereale antico toscano','p2.h3':'Farro Dicocco Biologico Perlato','p2.b1':'🌾 Biologico certificato','p2.b2':'500 g · Toscano',
+    'p2.d1':'Il farro dicocco è uno dei cereali più antichi del Mediterraneo.',
+    'p2.d2':'Perfetto per zuppe rustiche, insalate e i piatti della tradizione toscana.',
+    'p2.cta':'Chiedi disponibilità',
+    'osp.eyebrow':'Locazione turistica','osp.h2':'Casa ELOGI',
+    'osp.p1':"Casa Elogi è un'accogliente struttura familiare situata nella frazione La Croce del grazioso comune di Buti, provincia di Pisa. Struttura di nuova costruzione, accogliente e luminosa, adatta per chi cerca un soggiorno sereno e tranquillo.",
+    'osp.p2':'Immersa nel verde delle colline pisane, è il punto di partenza perfetto per esplorare i borghi storici della Toscana — e per conoscere da vicino la nostra azienda.',
+    'osp.f1':'Locazione turistica','osp.f2':'A pochi km da Pisa, Lucca e Firenze',
+    'osp.f3':'I nostri prodotti disponibili direttamente in azienda','osp.f4':'Silenzio, aria pulita e sapori genuini a km zero',
+    'osp.cta':'Richiedi informazioni',
+    'osp.book.booking':'Prenota o leggi le recensioni','osp.book.airbnb':"Guarda l'annuncio e le recensioni",
+    'cont.eyebrow':'Contatti','cont.h2':'Scrivici o vieni a trovarci','cont.where':'Dove siamo',
+    'cont.addr.lbl':'Indirizzo','cont.phone.lbl':'Telefono','cont.wa.lbl':'WhatsApp','cont.wa.txt':'Scrivici su WhatsApp','cont.email.lbl':'Email','cont.buy.lbl':'Come acquistare',
+    'cont.buy.txt':'Produzione familiare e limitata. Contattateci direttamente per disponibilità e modalità di acquisto in azienda.',
+    'cont.note':'Siamo una piccola azienda agricola familiare. Non abbiamo un negozio online: scriveteci e vi risponderemo di persona il prima possibile.',
+    'cont.maps':'Apri in Google Maps',
+    'form.title':'Inviaci un messaggio','form.email.lbl':'La tua email *','form.email.ph':'mario.rossi@esempio.it','form.email.err':'Inserisci un indirizzo email valido.',
+    'form.msg.lbl':'Il tuo messaggio *','form.msg.ph':'Scrivi qui la tua richiesta — prodotti, prezzi, ospitalità, visita in azienda...','form.msg.err':'Scrivi il tuo messaggio prima di inviare.',
+    'form.send':'Invia il messaggio','form.note':'* Campi obbligatori. I vostri dati non saranno mai condivisi con terzi.',
+    'form.ok.title':'Messaggio inviato!','form.ok.txt':'Grazie per averci scritto. Vi risponderemo il prima possibile.',
+    'foot.desc':'Tre generazioni di agricoltura familiare sulle colline di Buti, in provincia di Pisa. Olio extravergine di oliva, farro biologico e ospitalità rurale autentica.',
+    'foot.nav':'Naviga','foot.where':'Dove siamo','foot.follow':'Seguici','foot.copy':'© 2025 ELOGI Società Agricola Semplice · Buti (PI) · P.IVA e C.F. 02524020506'
+  },
+  en: {
+    'header.sub':'Agricultural Company · Buti, Tuscany',
+    'nav.storia':'Our Story','nav.prodotti':'Our Products','nav.news':'News','nav.ospitalita':'Hospitality','nav.contatti':'Contact Us',
+    'news.eyebrow':'Updates','news.h2':'Farm news','news.sub':'News, events, markets and everything happening on our hills.','news.empty':'No news at the moment. Come back soon!',
+    'hero.eyebrow':'',
+    'hero.h1a':'Genuine Products','hero.h1b':'from our family land',
+    'hero.lead':"Organic extra virgin olive oil and spelt, grown on the Monti Pisani.",
+    'hero.cta1':'Our products','hero.cta2':'Our story',
+    'num.1':'Generations of family','num.2':'Years of cultivation','num.3':'Certified organic',
+    'storia.eyebrow':'Who we are','storia.h2':'Roots that run deep',
+    'storia.intro':'A story that began when our grandparents first worked this plot of land.',
+    'storia.p1':'In the hills of Buti, in the locality of La Croce, the history of our farm has its roots in over three generations of work, sacrifice and love for the land.',
+    'storia.p2':'It all began when our grandparents, <strong>Mario Leporini and Nara Tognetti</strong>, bought the first plot. What today looks like an orderly, productive landscape was then uncultivated land covered in brambles. With patience and many hours of manual work, they began to turn it into a living, fertile farm.',
+    'storia.p3':'The baton then passed to <strong>Pier-Luigi Pasqualetto</strong>, who continued to tend this heritage, keeping intact the values that accompanied its birth.',
+    'storia.p4':"ELOGI Società Agricola Semplice takes its name from the initials of the family's new generation: Elena, Lorenzo and Giulia.",
+    'storia.quote':'"The earth is both mother and teacher." — Marcus Tullius Cicero',
+    'storia.prima':'Before','storia.dopo':'After',
+    'storia.cta':'Discover our products',
+    'gall.eyebrow':'Our land','gall.hint':'Drag to explore',
+    'prod.eyebrow':'From field to table','prod.h2':'Our products',
+    'prod.sub':"Grown without pesticides, respecting the environment and local farming traditions.",
+    'prod.avail':'Limited production — contact us for availability',
+    'p1.num':'Product 01','p1.eyebrow':'Organic extra virgin olive oil','p1.h3':'ELOGI — Organic Extra Virgin Olive Oil','p1.b1':'🌿 Own production',
+    'p1.d1':"Estratto a freddo dalle nostre olive, raccolte a mano sui Monti Pisani. Un olio che racchiude forza, passione e dedizione — il frutto di un anno intero di lavoro.",
+    'p1.d2':"Each vintage is different, each bottle is the story of that season. Production is limited: when it's gone, you must wait for the next harvest.",
+    'p1.cta':'Check availability',
+    'p2.num':'Product 02','p2.eyebrow':'Ancient Tuscan grain','p2.h3':'Organic Pearled Emmer Wheat','p2.b1':'🌾 Organic certified','p2.b2':'500 g · Tuscan',
+    'p2.d1':'Emmer wheat is one of the oldest grains in the Mediterranean. Ours, grown on the Pisan hills using traditional methods, keeps all its nutritional properties.',
+    'p2.d2':'Perfect for rustic soups, salads and traditional Tuscan dishes. Pearled by hand, packaged directly on the farm.',
+    'p2.cta':'Check availability',
+    'osp.eyebrow':'Holiday rental','osp.h2':'Casa ELOGI',
+    'osp.p1':"Casa Elogi è un'accogliente struttura familiare situata nella frazione La Croce del grazioso comune di Buti, provincia di Pisa. Struttura di nuova costruzione, accogliente e luminosa, adatta per chi cerca un soggiorno sereno e tranquillo.",
+    'osp.p2':'Nestled in the green Pisan hills, it is the perfect base to explore the historic villages of Tuscany — and to see our farm up close.',
+    'osp.f1':'Holiday rental','osp.f2':'A few km from Pisa, Lucca and Florence',
+    'osp.f3':'Our products available directly on the farm','osp.f4':'Silence, clean air and genuine farm-to-table flavours',
+    'osp.cta':'Request information',
+    'osp.book.booking':'Book or read the reviews','osp.book.airbnb':'See the listing and reviews',
+    'cont.eyebrow':'Contact','cont.h2':'Write to us or come visit','cont.where':'Where we are',
+    'cont.addr.lbl':'Address','cont.phone.lbl':'Telephone','cont.wa.lbl':'WhatsApp','cont.wa.txt':'Message us on WhatsApp','cont.email.lbl':'Email','cont.buy.lbl':'How to buy',
+    'cont.buy.txt':'Small family production. Contact us directly to find out about availability and how to purchase on the farm.',
+    'cont.note':"We are a small family farm. We don't have an online shop: write to us and we'll get back to you personally as soon as possible.",
+    'cont.maps':'Open in Google Maps',
+    'form.title':'Send us a message','form.email.lbl':'Your email *','form.email.ph':'mario.rossi@example.com','form.email.err':'Please enter a valid email address.',
+    'form.msg.lbl':'Your message *','form.msg.ph':'Write your request here — product availability, prices, accommodation, farm visit...','form.msg.err':'Please write your message before sending.',
+    'form.send':'Send message','form.note':'* Required fields. Your data will never be shared with third parties.',
+    'form.ok.title':'Message sent!','form.ok.txt':"Thank you for writing to us. We'll get back to you as soon as possible.",
+    'foot.desc':'Three generations of family farming in the hills of Buti, province of Pisa. Extra virgin olive oil, organic spelt and authentic rural hospitality.',
+    'foot.nav':'Navigate','foot.where':'Where we are','foot.follow':'Follow us','foot.copy':'© 2025 ELOGI Agricultural Company · Buti (PI) · VAT & Tax Code 02524020506'
+  }
+};
+let currentLang = localStorage.getItem('elogi-lang') || 'it';
+function setLang(lang){
+  currentLang = lang; localStorage.setItem('elogi-lang', lang);
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n'); if(T[lang][k]!==undefined) el.innerHTML=T[lang][k];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const k=el.getAttribute('data-i18n-placeholder'); if(T[lang][k]) el.placeholder=T[lang][k];
+  });
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active', b.textContent.toLowerCase()===lang));
+}
+setLang(currentLang);
+
+window.addEventListener('load',()=>document.body.classList.add('loaded'));
+
+/* progress + header */
+const progress=document.getElementById('progress'), header=document.getElementById('header');
+window.addEventListener('scroll',()=>{
+  const s=window.scrollY, t=document.body.scrollHeight-window.innerHeight;
+  progress.style.width=(s/t*100)+'%';
+  header.classList.toggle('scrolled', s>50);
+},{passive:true});
+
+/* parallax hero */
+const heroImg=document.querySelector('.hero-bg img');
+if(heroImg){
+  window.addEventListener('scroll',()=>{
+    const y=window.scrollY;
+    if(y<window.innerHeight*1.2) heroImg.style.transform=`translateY(${y*0.3}px)`;
+  },{passive:true});
+}
+
+/* mobile nav */
+function openMobileNav(){document.getElementById('mobileNav').classList.add('open');document.body.style.overflow='hidden';}
+function closeMobileNav(){document.getElementById('mobileNav').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMobileNav();});
+
+/* reveal + counters */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(!entry.isIntersecting)return;
+    const el=entry.target; el.classList.add('vis');
+    const c=el.querySelector('[data-count]');
+    if(c){
+      const target=parseInt(c.dataset.count), suffix=c.dataset.suffix||'';
+      let start=null; const dur=1500;
+      function tick(ts){
+        if(!start)start=ts;
+        const p=Math.min((ts-start)/dur,1), eased=1-Math.pow(1-p,3);
+        c.textContent=Math.round(target*eased)+(p===1?suffix:'');
+        if(p<1)requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+    io.unobserve(el);
+  });
+},{threshold:0.12});
+document.querySelectorAll('.fi, .gall-item').forEach(el=>io.observe(el));
+
+/* gallery drag + frecce */
+const track=document.getElementById('gallTrack');
+if(track){
+  let down=false,sx=0,sl=0,moved=false;
+  track.addEventListener('mousedown',e=>{down=true;moved=false;track.style.cursor='grabbing';sx=e.pageX-track.offsetLeft;sl=track.scrollLeft;});
+  document.addEventListener('mouseup',()=>{down=false;track.style.cursor='grab';});
+  track.addEventListener('mousemove',e=>{if(!down)return;e.preventDefault();moved=true;const x=e.pageX-track.offsetLeft;track.scrollLeft=sl-(x-sx)*1.4;});
+
+  const prev=document.getElementById('gallPrev');
+  const next=document.getElementById('gallNext');
+  // scorre di circa una "card e mezza" per clic
+  function step(){ const item=track.querySelector('.gall-item'); return item ? item.getBoundingClientRect().width*1.4 : track.clientWidth*0.6; }
+  function updateArrows(){
+    if(!prev||!next)return;
+    prev.disabled = track.scrollLeft <= 4;
+    next.disabled = track.scrollLeft >= (track.scrollWidth - track.clientWidth - 4);
+  }
+  prev?.addEventListener('click',()=>{ track.scrollBy({left:-step(),behavior:'smooth'}); });
+  next?.addEventListener('click',()=>{ track.scrollBy({left: step(),behavior:'smooth'}); });
+  track.addEventListener('scroll',updateArrows,{passive:true});
+  window.addEventListener('resize',updateArrows);
+  // stato iniziale (dopo che le immagini iniziano a caricare)
+  setTimeout(updateArrows,300);
+}
+
+/* form */
+document.getElementById('cForm')?.addEventListener('submit',async function(e){
+  e.preventDefault();
+  const emailEl=document.getElementById('email'),msgEl=document.getElementById('msg');
+  const ge=document.getElementById('ge'),gm=document.getElementById('gm');
+  ge.classList.remove('err');gm.classList.remove('err');
+  const email=emailEl.value.trim(),msg=msgEl.value.trim();let ok=true;
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ge.classList.add('err');emailEl.focus();ok=false;}
+  if(!msg){gm.classList.add('err');if(ok)msgEl.focus();ok=false;}
+  if(!ok)return;
+
+  // ════════════════════════════════════════════════════════════
+  // FORMSPREE — sostituisci IL_TUO_CODICE con il codice del tuo
+  // form Formspree (vedi GUIDA-SETUP, punto "Form contatti").
+  // Esempio finale: https://formspree.io/f/xxxxabcd
+  // ════════════════════════════════════════════════════════════
+  const FORMSPREE_URL = 'https://formspree.io/f/IL_TUO_CODICE';
+
+  const btn=this.querySelector('.f-submit');
+  const oldHtml=btn.innerHTML;
+  btn.disabled=true; btn.style.opacity='0.7';
+  btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>&nbsp; '+(currentLang==='en'?'Sending...':'Invio in corso...');
+
+  try{
+    const res=await fetch(FORMSPREE_URL,{
+      method:'POST',
+      headers:{'Accept':'application/json'},
+      body:JSON.stringify({email:email,message:msg})
+    });
+    if(res.ok){
+      this.style.display='none';
+      document.getElementById('fSuccess').style.display='block';
+    }else{
+      throw new Error('fail');
+    }
+  }catch(err){
+    btn.disabled=false; btn.style.opacity='1'; btn.innerHTML=oldHtml;
+    alert(currentLang==='en'
+      ? 'Sorry, something went wrong. Please write to us directly at info.agrielogi@gmail.com'
+      : "Spiacenti, qualcosa è andato storto. Scriveteci direttamente a info.agrielogi@gmail.com");
+  }
+});
+
+/* ════════════════════════════════════════════════════════════
+   NEWS — carica le novità pubblicate dal pannello.
+   I post vengono salvati come file singoli in news/posts/ dal
+   pannello (Decap CMS). Qui li leggiamo tramite l'API pubblica
+   di GitHub: gratis, nessun build, si aggiorna da solo.
+
+   ➜ IMPORTANTE: imposta GH_USER e GH_REPO con il tuo utente e
+     nome repository GitHub (vedi GUIDA-SETUP).
+   ════════════════════════════════════════════════════════════ */
+const GH_USER = 'IL_TUO_UTENTE_GITHUB';
+const GH_REPO = 'IL_TUO_REPOSITORY';
+
+(async function loadNews(){
+  const list=document.getElementById('newsList');
+  const empty=document.getElementById('newsEmpty');
+  if(!list)return;
+
+  function fmtDate(iso){
+    if(!iso)return'';
+    try{
+      const d=new Date(iso);
+      const loc=currentLang==='en'?'en-GB':'it-IT';
+      return d.toLocaleDateString(loc,{day:'numeric',month:'long',year:'numeric'});
+    }catch(e){return iso;}
+  }
+
+  function render(items){
+    if(!Array.isArray(items)||items.length===0){ empty.style.display='block'; return; }
+    items.sort((a,b)=>new Date(b.data||0)-new Date(a.data||0));
+    list.innerHTML=items.map(n=>{
+      const img = n.immagine ? `<div class="news-card-img"><img src="${n.immagine}" alt="${(n.titolo||'').replace(/"/g,'&quot;')}" loading="lazy"></div>` : '';
+      let atts='';
+      if(Array.isArray(n.allegati)){
+        n.allegati.forEach(a=>{ if(a&&a.file) atts+=`<a class="news-att" href="${a.file}" target="_blank" rel="noopener"><i class="fa-solid fa-paperclip"></i> ${a.nome||'Allegato'}</a>`; });
+      }
+      if(Array.isArray(n.link)){
+        n.link.forEach(l=>{ if(l&&l.url) atts+=`<a class="news-att is-link" href="${l.url}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${l.nome||l.url}</a>`; });
+      }
+      const dateHtml = n.data ? `<span class="news-date"><i class="fa-solid fa-calendar-day"></i> ${fmtDate(n.data)}</span>` : '';
+      return `<article class="news-card fi vis">
+        ${img}
+        <div class="news-card-body">
+          ${dateHtml}
+          <h3>${n.titolo||''}</h3>
+          <div class="news-text">${(n.testo||'').replace(/</g,'&lt;')}</div>
+          ${atts?`<div class="news-attachments">${atts}</div>`:''}
+        </div>
+      </article>`;
+    }).join('');
+  }
+
+  try{
+    // 1) Elenca i file dei post via API GitHub
+    const api=`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/news/posts`;
+    const res=await fetch(api);
+    if(!res.ok)throw new Error('no posts dir');
+    const files=await res.json();
+    const jsonFiles=files.filter(f=>f.name.endsWith('.json'));
+    if(jsonFiles.length===0){ empty.style.display='block'; return; }
+    // 2) Scarica ogni post
+    const items=await Promise.all(jsonFiles.map(async f=>{
+      try{ const r=await fetch(f.download_url+'?t='+Date.now()); return await r.json(); }
+      catch(e){ return null; }
+    }));
+    render(items.filter(Boolean));
+  }catch(e){
+    empty.style.display='block';
+  }
+})();
+
+
+</script>
+<!-- Netlify Identity: reindirizza al pannello dopo il login -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on('init', user => {
+      if (!user) {
+        window.netlifyIdentity.on('login', () => { document.location.href = '/admin/'; });
+      }
+    });
+  }
+</script>
+</body>
+</html>
