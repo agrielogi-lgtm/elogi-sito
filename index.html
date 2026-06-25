@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ELOGI Società Agricola — Olio EVO e Farro Biologico · Buti, Toscana</title>
+  <meta name="description" content="Azienda agricola familiare a Buti (PI) da tre generazioni. Olio extravergine e farro dicocco biologico dalle colline pisane.">
+
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <meta property="og:image" content="favicon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ELOGI Società Agricola">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    
+
+
+</script>
+<script>
+/* ── NEWS LOADER (Netlify Blobs) ─────────────────────────── */
+(async function loadNews(){
+  const list = document.getElementById('newsList');
+  const empty = document.getElementById('newsEmpty');
+  if(!list) return;
+
+  function fmtDate(iso){
+    if(!iso) return '';
+    try {
+      const d = new Date(iso);
+      const loc = currentLang === 'en' ? 'en-GB' : 'it-IT';
+      return d.toLocaleDateString(loc, {day:'numeric', month:'long', year:'numeric'});
+    } catch(e){ return iso; }
+  }
+
+  try {
+    const res = await fetch('/.netlify/functions/get-news');
+    if(!res.ok) throw new Error('no news');
+    const items = await res.json();
+    if(!Array.isArray(items) || items.length === 0){ empty.style.display='block'; return; }
+    items.sort((a,b) => new Date(b.data||0) - new Date(a.data||0));
+    list.innerHTML = items.map(n => {
+      const img = n.immagine ? `<div class="news-card-img"><img src="${n.immagine}" alt="${(n.titolo||'').replace(/"/g,'&quot;')}" loading="lazy"></div>` : '';
+      let atts = '';
+      if(Array.isArray(n.allegati)) n.allegati.forEach(a => {
+        if(a&&a.file) atts += `<a class="news-att" href="${a.file}" target="_blank" rel="noopener"><i class="fa-solid fa-paperclip"></i> ${a.nome||'Allegato'}</a>`;
+      });
+      if(Array.isArray(n.link)) n.link.forEach(l => {
+        if(l&&l.url) atts += `<a class="news-att is-link" href="${l.url}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${l.nome||l.url}</a>`;
+      });
+      const dateHtml = n.data ? `<span class="news-date"><i class="fa-solid fa-calendar-day"></i> ${fmtDate(n.data)}</span>` : '';
+      return `<article class="news-card fi vis">
+        ${img}
+        <div class="news-card-body">
+          ${dateHtml}
+          <h3>${n.titolo||''}</h3>
+          <div class="news-text">${(n.testo||'').replace(/</g,'&lt;')}</div>
+          ${atts ? `<div class="news-attachments">${atts}</div>` : ''}
+        </div>
+      </article>`;
+    }).join('');
+  } catch(e){
+    empty.style.display = 'block';
+  }
+})();
+
+</script>
+</body>
+</html>

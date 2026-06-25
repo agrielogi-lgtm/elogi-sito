@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>ELOGI · Pannello News</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --bordeaux: #7a2230;
+      --sand:     #ece2d0;
+      --sand-lt:  #f7f2e7;
+      --cream:    #faf6ee;
+      --ink:      #36312a;
+      --ink-soft: #5e564a;
+      --olive:    #46301f;
+      --r:        14px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:var(--sand-lt); color:var(--ink); font-family:'Manrope',sans-serif; font-size:15px; line-height:1.6; }
+    h1,h2,h3 { font-family:'Fraunces',serif; font-weight:400; }
+
+    /* ── LOGIN ── */
+    #login-screen {
+      min-height:100vh; display:flex; align-items:center; justify-content:center;
+      background:var(--olive);
+    }
+    .login-box {
+      background:var(--cream); border-radius:var(--r); padding:2.5rem 2rem;
+      width:100%; max-width:380px; text-align:center;
+      box-shadow:0 20px 50px rgba(0,0,0,0.3);
+    }
+    .login-box img { width:80px; height:80px; border-radius:50%; margin-bottom:1rem; }
+    .login-box h2 { font-size:1.6rem; color:var(--olive); margin-bottom:0.3rem; }
+    .login-box p { color:var(--ink-soft); font-size:0.85rem; margin-bottom:1.8rem; }
+    .login-box input {
+      width:100%; padding:0.75rem 1rem; border:1.5px solid rgba(0,0,0,0.12);
+      border-radius:var(--r); font-family:'Manrope',sans-serif; font-size:1rem;
+      background:var(--sand-lt); outline:none; margin-bottom:1rem;
+    }
+    .login-box input:focus { border-color:var(--bordeaux); }
+    .login-err { color:#c0392b; font-size:0.82rem; margin:-0.5rem 0 0.8rem; }
+    .btn-primary {
+      width:100%; padding:0.85rem; background:var(--bordeaux); color:white;
+      border:none; border-radius:100px; font-family:'Manrope',sans-serif;
+      font-size:0.85rem; font-weight:600; letter-spacing:0.06em; cursor:pointer;
+      transition:background 0.25s;
+    }
+    .btn-primary:hover { background:#5c1a26; }
+
+    /* ── LAYOUT ── */
+    #app { display:none; min-height:100vh; }
+    .topbar {
+      background:var(--olive); color:white; padding:0.9rem 1.5rem;
+      display:flex; align-items:center; justify-content:space-between; gap:1rem;
+      position:sticky; top:0; z-index:100;
+    }
+    .topbar-left { display:flex; align-items:center; gap:0.8rem; }
+    .topbar-left img { width:38px; height:38px; border-radius:50%; }
+    .topbar-left span { font-family:'Fraunces',serif; font-size:1.1rem; }
+    .topbar-right { display:flex; gap:0.8rem; }
+    .btn-sm {
+      padding:0.45rem 1.1rem; border-radius:100px; font-size:0.78rem;
+      font-weight:600; cursor:pointer; border:none; transition:all 0.25s;
+    }
+    .btn-bordeaux { background:var(--bordeaux); color:white; }
+    .btn-bordeaux:hover { background:#5c1a26; }
+    .btn-ghost { background:rgba(255,255,255,0.15); color:white; }
+    .btn-ghost:hover { background:rgba(255,255,255,0.25); }
+    .btn-danger { background:#c0392b; color:white; }
+    .btn-danger:hover { background:#962d22; }
+    .btn-outline { background:transparent; color:var(--bordeaux); border:1.5px solid var(--bordeaux); }
+    .btn-outline:hover { background:var(--bordeaux); color:white; }
+
+    .main { max-width:860px; margin:0 auto; padding:2rem 1.2rem; }
+
+    /* ── LISTA NEWS ── */
+    #view-list h2 { font-size:1.8rem; color:var(--olive); margin-bottom:1.5rem; }
+    .news-list { display:flex; flex-direction:column; gap:1rem; }
+    .news-item {
+      background:var(--cream); border-radius:var(--r);
+      padding:1.2rem 1.4rem; display:flex; align-items:center;
+      justify-content:space-between; gap:1rem;
+      box-shadow:0 4px 16px rgba(0,0,0,0.06);
+    }
+    .news-item-info { flex:1; min-width:0; }
+    .news-item-info strong { display:block; font-size:0.98rem; color:var(--olive); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .news-item-info span { font-size:0.8rem; color:var(--ink-soft); }
+    .news-item-actions { display:flex; gap:0.5rem; flex-shrink:0; }
+    .empty-state { text-align:center; padding:3rem; color:var(--ink-soft); font-family:'Fraunces',serif; font-style:italic; font-size:1.1rem; }
+
+    /* ── FORM ── */
+    #view-form h2 { font-size:1.8rem; color:var(--olive); margin-bottom:0.4rem; }
+    #view-form .subtitle { color:var(--ink-soft); font-size:0.88rem; margin-bottom:2rem; }
+    .form-card { background:var(--cream); border-radius:var(--r); padding:1.8rem; box-shadow:0 4px 16px rgba(0,0,0,0.06); margin-bottom:1.2rem; }
+    .form-card h3 { font-size:1rem; color:var(--olive); margin-bottom:1.2rem; padding-bottom:0.6rem; border-bottom:1px solid var(--sand); }
+    .field { margin-bottom:1.4rem; }
+    .field:last-child { margin-bottom:0; }
+    .field label { display:block; font-size:0.72rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:0.5rem; }
+    .field input[type=text],
+    .field input[type=date],
+    .field textarea {
+      width:100%; padding:0.75rem 1rem; border:1.5px solid rgba(0,0,0,0.12);
+      border-radius:var(--r); font-family:'Manrope',sans-serif; font-size:0.95rem;
+      background:var(--sand-lt); outline:none; resize:vertical;
+      transition:border-color 0.25s;
+    }
+    .field input:focus, .field textarea:focus { border-color:var(--bordeaux); }
+    .field textarea { min-height:140px; }
+    .field small { display:block; margin-top:0.4rem; color:var(--ink-soft); font-size:0.78rem; }
+
+    /* Allegati */
+    .allegato-row, .link-row {
+      display:flex; gap:0.6rem; align-items:center; margin-bottom:0.6rem;
+    }
+    .allegato-row input, .link-row input { flex:1; }
+    .btn-icon { background:none; border:none; cursor:pointer; color:var(--ink-soft); font-size:1rem; padding:0.3rem; transition:color 0.2s; }
+    .btn-icon:hover { color:#c0392b; }
+    .btn-add { display:inline-flex; align-items:center; gap:0.4rem; margin-top:0.4rem; padding:0.4rem 0.9rem; background:var(--sand); border:1.5px solid rgba(0,0,0,0.1); border-radius:100px; font-size:0.78rem; font-weight:600; color:var(--olive); cursor:pointer; transition:background 0.2s; }
+    .btn-add:hover { background:var(--sand-lt); }
+
+    /* Immagine preview */
+    #img-preview { max-width:200px; border-radius:8px; margin-top:0.8rem; display:none; }
+
+    /* Bottom bar */
+    .form-actions { display:flex; gap:1rem; justify-content:flex-end; margin-top:1.5rem; flex-wrap:wrap; }
+
+    /* Toast */
+    .toast {
+      position:fixed; bottom:2rem; right:2rem; z-index:999;
+      background:var(--olive); color:white; padding:0.9rem 1.5rem;
+      border-radius:var(--r); font-size:0.9rem; font-weight:500;
+      box-shadow:0 8px 24px rgba(0,0,0,0.2);
+      transform:translateY(100px); opacity:0; transition:all 0.35s;
+    }
+    .toast.show { transform:none; opacity:1; }
+    .toast.err { background:#c0392b; }
+
+    /* Loading */
+    .spinner { text-align:center; padding:2rem; color:var(--ink-soft); }
+    .spinner i { font-size:1.5rem; animation:spin 1s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    @media(max-width:600px) {
+      .topbar-right .btn-sm span { display:none; }
+      .form-card { padding:1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <img src="/images/logo-elogi.png" alt="ELOGI">
+    <h2>Pannello News</h2>
+    <p>Accedi per gestire le novità del sito</p>
+    <input type="password" id="pwd-input" placeholder="Password" autocomplete="current-password">
+    <p class="login-err" id="login-err" style="display:none">Password errata. Riprova.</p>
+    <button class="btn-primary" onclick="doLogin()">
+      <i class="fa-solid fa-lock-open"></i> Accedi
+    </button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-left">
+      <img src="/images/logo-elogi.png" alt="ELOGI">
+      <span>ELOGI News</span>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-sm btn-bordeaux" onclick="showForm(null)">
+        <i class="fa-solid fa-plus"></i> <span>Nuova news</span>
+      </button>
+      <button class="btn-sm btn-ghost" onclick="logout()">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- LISTA -->
+    <div id="view-list" style="display:none">
+      <h2>Le tue news</h2>
+      <div class="news-list" id="news-list-container">
+        <div class="spinner"><i class="fa-solid fa-circle-notch"></i></div>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div id="view-form" style="display:none">
+      <h2 id="form-title">Nuova novità</h2>
+      <p class="subtitle">Puoi usare apostrofi, accenti e qualsiasi carattere nel titolo e nel testo.</p>
+
+      <div class="form-card">
+        <h3><i class="fa-solid fa-pen"></i> Contenuto principale</h3>
+        <div class="field">
+          <label>Titolo *</label>
+          <input type="text" id="f-titolo" placeholder="Es: Avviamento d'impresa e sviluppo aziendale">
+        </div>
+        <div class="field">
+          <label>Data dell'avvenimento</label>
+          <input type="date" id="f-data">
+          <small>La data che apparirà sulla news. Modificabile in qualsiasi momento.</small>
+        </div>
+        <div class="field">
+          <label>Testo *</label>
+          <textarea id="f-testo" placeholder="Descrivi la novità. Vai a capo liberamente, usa apostrofi e accenti senza problemi."></textarea>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3><i class="fa-solid fa-image"></i> Immagine di copertina (facoltativa)</h3>
+        <div class="field">
+          <label>URL immagine</label>
+          <input type="text" id="f-immagine" placeholder="https://... oppure /uploads/news/nome-file.jpg" oninput="previewImg()">
+          <small>Carica prima l'immagine su GitHub nella cartella uploads/news/, poi incolla il percorso qui.</small>
+          <img id="img-preview" alt="Anteprima">
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3><i class="fa-solid fa-paperclip"></i> File scaricabili (facoltativi)</h3>
+        <div id="allegati-container"></div>
+        <button class="btn-add" onclick="addAllegato()"><i class="fa-solid fa-plus"></i> Aggiungi file</button>
+        <p style="margin-top:0.6rem;font-size:0.78rem;color:var(--ink-soft)">Carica il file su GitHub in uploads/news/ e inserisci il percorso /uploads/news/nome-file.pdf</p>
+      </div>
+
+      <div class="form-card">
+        <h3><i class="fa-solid fa-link"></i> Link cliccabili (facoltativi)</h3>
+        <div id="link-container"></div>
+        <button class="btn-add" onclick="addLink()"><i class="fa-solid fa-plus"></i> Aggiungi link</button>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-sm btn-outline" onclick="showList()">Annulla</button>
+        <button class="btn-sm btn-bordeaux" onclick="salvaNews()" id="btn-salva">
+          <i class="fa-solid fa-floppy-disk"></i> Pubblica
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let pwd = '';
+let editingId = null;
+
+/* ── LOGIN ── */
+document.getElementById('pwd-input').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+async function doLogin() {
+  const p = document.getElementById('pwd-input').value.trim();
+  if (!p) return;
+  const res = await fetch('/.netlify/functions/save-news', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ action:'list', password:p })
+  });
+  if (res.status === 401) {
+    document.getElementById('login-err').style.display = 'block';
+    return;
+  }
+  pwd = p;
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  showList();
+}
+
+function logout() {
+  pwd = '';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('pwd-input').value = '';
+}
+
+/* ── LISTA ── */
+async function showList() {
+  editingId = null;
+  document.getElementById('view-list').style.display = 'block';
+  document.getElementById('view-form').style.display = 'none';
+  const c = document.getElementById('news-list-container');
+  c.innerHTML = '<div class="spinner"><i class="fa-solid fa-circle-notch"></i></div>';
+
+  const res = await fetch('/.netlify/functions/save-news', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ action:'list', password:pwd })
+  });
+  const items = await res.json();
+  items.sort((a,b) => new Date(b.data||0) - new Date(a.data||0));
+
+  if (!items.length) {
+    c.innerHTML = '<p class="empty-state">Nessuna news pubblicata. Creane una!</p>';
+    return;
+  }
+  c.innerHTML = items.map(n => `
+    <div class="news-item">
+      <div class="news-item-info">
+        <strong>${n.titolo||'(senza titolo)'}</strong>
+        <span>${n.data ? new Date(n.data).toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}) : 'Nessuna data'}</span>
+      </div>
+      <div class="news-item-actions">
+        <button class="btn-sm btn-outline" onclick='showForm(${JSON.stringify(n)})'>
+          <i class="fa-solid fa-pen"></i> Modifica
+        </button>
+        <button class="btn-sm btn-danger" onclick='eliminaNews("${n.id}")'>
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ── FORM ── */
+function showForm(news) {
+  document.getElementById('view-list').style.display = 'none';
+  document.getElementById('view-form').style.display = 'block';
+  document.getElementById('allegati-container').innerHTML = '';
+  document.getElementById('link-container').innerHTML = '';
+  document.getElementById('img-preview').style.display = 'none';
+
+  if (news) {
+    editingId = news.id;
+    document.getElementById('form-title').textContent = 'Modifica news';
+    document.getElementById('f-titolo').value = news.titolo || '';
+    document.getElementById('f-data').value = news.data || '';
+    document.getElementById('f-testo').value = news.testo || '';
+    document.getElementById('f-immagine').value = news.immagine || '';
+    if (news.immagine) previewImg();
+    (news.allegati||[]).forEach(a => addAllegato(a));
+    (news.link||[]).forEach(l => addLink(l));
+  } else {
+    editingId = null;
+    document.getElementById('form-title').textContent = 'Nuova novità';
+    document.getElementById('f-titolo').value = '';
+    document.getElementById('f-data').value = new Date().toISOString().split('T')[0];
+    document.getElementById('f-testo').value = '';
+    document.getElementById('f-immagine').value = '';
+  }
+}
+
+/* ── ALLEGATI ── */
+function addAllegato(a) {
+  const c = document.getElementById('allegati-container');
+  const div = document.createElement('div');
+  div.className = 'allegato-row';
+  div.innerHTML = `
+    <input type="text" placeholder="Nome da mostrare (es. Locandina evento)" value="${a?.nome||''}">
+    <input type="text" placeholder="/uploads/news/file.pdf" value="${a?.file||''}">
+    <button class="btn-icon" onclick="this.parentNode.remove()"><i class="fa-solid fa-times"></i></button>
+  `;
+  c.appendChild(div);
+}
+
+function addLink(l) {
+  const c = document.getElementById('link-container');
+  const div = document.createElement('div');
+  div.className = 'link-row';
+  div.innerHTML = `
+    <input type="text" placeholder="Testo del link (es. Vai alla pagina)" value="${l?.nome||''}">
+    <input type="text" placeholder="https://..." value="${l?.url||''}">
+    <button class="btn-icon" onclick="this.parentNode.remove()"><i class="fa-solid fa-times"></i></button>
+  `;
+  c.appendChild(div);
+}
+
+/* ── IMMAGINE PREVIEW ── */
+function previewImg() {
+  const val = document.getElementById('f-immagine').value.trim();
+  const prev = document.getElementById('img-preview');
+  if (val) { prev.src = val; prev.style.display = 'block'; }
+  else { prev.style.display = 'none'; }
+}
+
+/* ── SALVA ── */
+async function salvaNews() {
+  const titolo = document.getElementById('f-titolo').value.trim();
+  const testo  = document.getElementById('f-testo').value.trim();
+  if (!titolo) { toast('Inserisci un titolo', true); document.getElementById('f-titolo').focus(); return; }
+  if (!testo)  { toast('Inserisci il testo', true); document.getElementById('f-testo').focus(); return; }
+
+  // Raccogli allegati
+  const allegati = [...document.querySelectorAll('.allegato-row')].map(row => {
+    const ins = row.querySelectorAll('input');
+    return { nome: ins[0].value.trim(), file: ins[1].value.trim() };
+  }).filter(a => a.file);
+
+  // Raccogli link
+  const link = [...document.querySelectorAll('.link-row')].map(row => {
+    const ins = row.querySelectorAll('input');
+    return { nome: ins[0].value.trim(), url: ins[1].value.trim() };
+  }).filter(l => l.url);
+
+  const news = {
+    id: editingId || ('news-' + Date.now()),
+    titolo,
+    testo,
+    data: document.getElementById('f-data').value || new Date().toISOString().split('T')[0],
+    immagine: document.getElementById('f-immagine').value.trim() || null,
+    allegati,
+    link
+  };
+
+  const btn = document.getElementById('btn-salva');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Pubblicazione...';
+
+  const res = await fetch('/.netlify/functions/save-news', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ action:'save', password:pwd, news })
+  });
+
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Pubblica';
+
+  if (res.ok) {
+    toast('News pubblicata! Appare sul sito in pochi secondi.');
+    showList();
+  } else {
+    toast('Errore durante il salvataggio. Riprova.', true);
+  }
+}
+
+/* ── ELIMINA ── */
+async function eliminaNews(id) {
+  if (!confirm('Eliminare questa news? L\'operazione non è reversibile.')) return;
+  await fetch('/.netlify/functions/save-news', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ action:'delete', password:pwd, news:{ id } })
+  });
+  toast('News eliminata.');
+  showList();
+}
+
+/* ── TOAST ── */
+function toast(msg, err=false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (err ? ' err' : '');
+  setTimeout(() => t.className = 'toast', 3000);
+}
+</script>
+</body>
+</html>
