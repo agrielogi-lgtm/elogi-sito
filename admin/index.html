@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>ELOGI · Pannello News</title>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root{
+    --bordeaux:#7a2230; --bordeaux-dk:#5c1a26;
+    --sand:#ece2d0; --sand-lt:#f7f2e7; --cream:#faf6ee;
+    --ink:#36312a; --ink-soft:#5e564a; --olive:#46301f; --r:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--sand-lt);color:var(--ink);font-family:'Manrope',sans-serif;font-size:15px;line-height:1.6}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:400}
+
+  /* LOGIN */
+  #login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--olive);padding:1rem}
+  .login-box{background:var(--cream);border-radius:var(--r);padding:2.5rem 2rem;width:100%;max-width:400px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+  .login-box img{width:80px;height:80px;border-radius:50%;margin-bottom:1rem}
+  .login-box h2{font-size:1.6rem;color:var(--olive);margin-bottom:.3rem}
+  .login-box p{color:var(--ink-soft);font-size:.84rem;margin-bottom:1.6rem}
+  .login-box input{width:100%;padding:.75rem 1rem;border:1.5px solid rgba(0,0,0,.12);border-radius:var(--r);font-family:inherit;font-size:1rem;background:var(--sand-lt);outline:none;margin-bottom:.6rem}
+  .login-box input:focus{border-color:var(--bordeaux)}
+  .help{font-size:.76rem;color:var(--ink-soft);margin:.2rem 0 1.2rem;text-align:left;background:var(--sand);padding:.7rem .9rem;border-radius:10px;line-height:1.5}
+  .help a{color:var(--bordeaux)}
+  .err{color:#c0392b;font-size:.82rem;margin-bottom:.8rem;display:none}
+  .btn{padding:.8rem 1.4rem;border:none;border-radius:100px;font-family:inherit;font-size:.82rem;font-weight:600;letter-spacing:.04em;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:.5rem;justify-content:center}
+  .btn-primary{background:var(--bordeaux);color:#fff;width:100%}
+  .btn-primary:hover{background:var(--bordeaux-dk)}
+  .btn-primary:disabled{opacity:.6;cursor:default}
+
+  /* APP */
+  #app{display:none;min-height:100vh}
+  .top{background:var(--olive);color:#fff;padding:.9rem 1.4rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;position:sticky;top:0;z-index:50}
+  .top-l{display:flex;align-items:center;gap:.7rem}
+  .top-l img{width:38px;height:38px;border-radius:50%}
+  .top-l b{font-family:'Fraunces',serif;font-weight:400;font-size:1.1rem}
+  .top-r{display:flex;gap:.6rem}
+  .btn-bord{background:var(--bordeaux);color:#fff}.btn-bord:hover{background:var(--bordeaux-dk)}
+  .btn-ghost{background:rgba(255,255,255,.15);color:#fff}.btn-ghost:hover{background:rgba(255,255,255,.28)}
+  .btn-danger{background:#c0392b;color:#fff}.btn-danger:hover{background:#962d22}
+  .btn-outline{background:transparent;color:var(--bordeaux);border:1.5px solid var(--bordeaux)}.btn-outline:hover{background:var(--bordeaux);color:#fff}
+  .btn-sm{padding:.5rem 1.1rem;font-size:.78rem}
+  .main{max-width:840px;margin:0 auto;padding:2rem 1.1rem}
+
+  /* LISTA */
+  #v-list h2{font-size:1.8rem;color:var(--olive);margin-bottom:1.4rem}
+  .nlist{display:flex;flex-direction:column;gap:.9rem}
+  .nitem{background:var(--cream);border-radius:var(--r);padding:1.1rem 1.3rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;box-shadow:0 4px 16px rgba(0,0,0,.06)}
+  .nitem-info{flex:1;min-width:0}
+  .nitem-info strong{display:block;font-size:.98rem;color:var(--olive);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nitem-info span{font-size:.8rem;color:var(--ink-soft)}
+  .nitem-act{display:flex;gap:.5rem;flex-shrink:0}
+  .empty{text-align:center;padding:3rem 1rem;color:var(--ink-soft);font-family:'Fraunces',serif;font-style:italic;font-size:1.1rem}
+
+  /* FORM */
+  #v-form h2{font-size:1.8rem;color:var(--olive);margin-bottom:.3rem}
+  #v-form .sub{color:var(--ink-soft);font-size:.86rem;margin-bottom:1.8rem}
+  .card{background:var(--cream);border-radius:var(--r);padding:1.7rem;box-shadow:0 4px 16px rgba(0,0,0,.06);margin-bottom:1.1rem}
+  .card h3{font-size:1rem;color:var(--olive);margin-bottom:1.1rem;padding-bottom:.55rem;border-bottom:1px solid var(--sand);display:flex;align-items:center;gap:.5rem}
+  .fld{margin-bottom:1.3rem}.fld:last-child{margin-bottom:0}
+  .fld label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:.5rem}
+  .fld input[type=text],.fld input[type=date],.fld textarea{width:100%;padding:.75rem 1rem;border:1.5px solid rgba(0,0,0,.12);border-radius:var(--r);font-family:inherit;font-size:.95rem;background:var(--sand-lt);outline:none;resize:vertical;transition:border-color .25s}
+  .fld input:focus,.fld textarea:focus{border-color:var(--bordeaux)}
+  .fld textarea{min-height:150px}
+  .fld small{display:block;margin-top:.4rem;color:var(--ink-soft);font-size:.78rem}
+  .row{display:flex;gap:.6rem;align-items:center;margin-bottom:.6rem}
+  .row input{flex:1}
+  .bi{background:none;border:none;cursor:pointer;color:var(--ink-soft);font-size:1rem;padding:.3rem;transition:color .2s}.bi:hover{color:#c0392b}
+  .badd{display:inline-flex;align-items:center;gap:.4rem;margin-top:.4rem;padding:.4rem .9rem;background:var(--sand);border:1.5px solid rgba(0,0,0,.1);border-radius:100px;font-size:.78rem;font-weight:600;color:var(--olive);cursor:pointer}.badd:hover{background:var(--sand-lt)}
+  #imgprev{max-width:200px;border-radius:8px;margin-top:.8rem;display:none}
+  .facts{display:flex;gap:1rem;justify-content:flex-end;margin-top:1.4rem;flex-wrap:wrap}
+
+  .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);z-index:99;background:var(--olive);color:#fff;padding:.9rem 1.6rem;border-radius:var(--r);font-size:.9rem;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;transition:all .35s}
+  .toast.show{transform:translateX(-50%);opacity:1}
+  .toast.err{background:#c0392b}
+  .spin{text-align:center;padding:2rem;color:var(--ink-soft)}.spin i{font-size:1.5rem;animation:sp 1s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  @media(max-width:600px){.top-r .btn span{display:none}.card{padding:1.2rem}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <div class="login-box">
+    <img src="/images/logo-elogi.png" alt="ELOGI">
+    <h2>Pannello News</h2>
+    <p>Inserisci la chiave di accesso per gestire le novità</p>
+    <input type="password" id="token" placeholder="Chiave di accesso" autocomplete="off">
+    <p class="err" id="err">Chiave non valida o connessione assente. Riprova.</p>
+    <button class="btn btn-primary" id="btnLogin" onclick="login()"><i class="fa-solid fa-lock-open"></i> Accedi</button>
+    <div class="help">
+      <strong>Prima volta?</strong> La chiave di accesso è un "token GitHub" che si crea una sola volta. Trovi le istruzioni passo-passo nel file <em>GUIDA-NEWS.txt</em> incluso nel sito. Conservala: ti servirà ogni volta.
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="top">
+    <div class="top-l"><img src="/images/logo-elogi.png" alt="ELOGI"><b>ELOGI News</b></div>
+    <div class="top-r">
+      <button class="btn btn-sm btn-bord" onclick="openForm(null)"><i class="fa-solid fa-plus"></i> <span>Nuova news</span></button>
+      <button class="btn btn-sm btn-ghost" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i></button>
+    </div>
+  </div>
+  <div class="main">
+    <div id="v-list" style="display:none">
+      <h2>Le tue news</h2>
+      <div class="nlist" id="nlist"><div class="spin"><i class="fa-solid fa-circle-notch"></i></div></div>
+    </div>
+    <div id="v-form" style="display:none">
+      <h2 id="ftitle">Nuova novità</h2>
+      <p class="sub">Puoi usare apostrofi, accenti e qualsiasi carattere — niente più problemi di punteggiatura.</p>
+      <div class="card">
+        <h3><i class="fa-solid fa-pen"></i> Contenuto</h3>
+        <div class="fld"><label>Titolo *</label><input type="text" id="f-titolo" placeholder="Es: Avviamento d'impresa e sviluppo aziendale"></div>
+        <div class="fld"><label>Data</label><input type="date" id="f-data"><small>La data mostrata sulla news. Modificabile quando vuoi.</small></div>
+        <div class="fld"><label>Testo *</label><textarea id="f-testo" placeholder="Scrivi liberamente. Vai a capo, usa apostrofi e accenti senza problemi."></textarea></div>
+      </div>
+      <div class="card">
+        <h3><i class="fa-solid fa-image"></i> Immagine di copertina (facoltativa)</h3>
+        <div class="fld"><label>Percorso immagine</label><input type="text" id="f-img" placeholder="/uploads/news/foto.jpg" oninput="prevImg()"><small>Carica prima la foto su GitHub in <b>uploads/news/</b>, poi incolla qui il percorso.</small><img id="imgprev" alt=""></div>
+      </div>
+      <div class="card">
+        <h3><i class="fa-solid fa-paperclip"></i> File scaricabili (facoltativi)</h3>
+        <div id="att"></div>
+        <button class="badd" onclick="addAtt()"><i class="fa-solid fa-plus"></i> Aggiungi file</button>
+        <p style="margin-top:.6rem;font-size:.78rem;color:var(--ink-soft)">Carica il file su GitHub in uploads/news/ e inserisci /uploads/news/nome.pdf</p>
+      </div>
+      <div class="card">
+        <h3><i class="fa-solid fa-link"></i> Link cliccabili (facoltativi)</h3>
+        <div id="lnk"></div>
+        <button class="badd" onclick="addLnk()"><i class="fa-solid fa-plus"></i> Aggiungi link</button>
+      </div>
+      <div class="facts">
+        <button class="btn btn-sm btn-outline" onclick="showList()">Annulla</button>
+        <button class="btn btn-sm btn-bord" id="btnSave" onclick="save()"><i class="fa-solid fa-floppy-disk"></i> Pubblica</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ════════════════════════════════════════════════════
+   CONFIG — l'unica cosa da impostare una volta sola:
+   il tuo utente e nome repository GitHub.
+   ════════════════════════════════════════════════════ */
+const GH_USER = 'agrielogi-lgtm';
+const GH_REPO = 'elogi-sito';
+const GH_PATH = 'news/news.json';
+const GH_BRANCH = 'main';
+
+let token = '';
+let sha = null;       // versione corrente del file (serve a GitHub)
+let news = [];        // array delle news
+let editId = null;
+
+document.getElementById('token').addEventListener('keydown',e=>{if(e.key==='Enter')login();});
+
+function api(){ return `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_PATH}`; }
+
+async function login(){
+  const t = document.getElementById('token').value.trim();
+  if(!t) return;
+  const btn = document.getElementById('btnLogin');
+  btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Verifica...';
+  try{
+    // provo a leggere il file news.json col token
+    const res = await fetch(api()+'?ref='+GH_BRANCH, { headers:{ Authorization:'Bearer '+t, Accept:'application/vnd.github+json' } });
+    if(res.status===401 || res.status===403) throw new Error('auth');
+    if(res.status===404){
+      // il file non esiste ancora: parto da lista vuota
+      news = []; sha = null;
+    } else if(res.ok){
+      const data = await res.json();
+      sha = data.sha;
+      news = JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))))) || [];
+    } else { throw new Error('net'); }
+    token = t;
+    document.getElementById('login').style.display='none';
+    document.getElementById('app').style.display='block';
+    showList();
+  }catch(e){
+    document.getElementById('err').style.display='block';
+  }finally{
+    btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-lock-open"></i> Accedi';
+  }
+}
+
+function logout(){
+  token=''; news=[]; sha=null;
+  document.getElementById('login').style.display='flex';
+  document.getElementById('app').style.display='none';
+  document.getElementById('token').value='';
+  document.getElementById('err').style.display='none';
+}
+
+function showList(){
+  editId=null;
+  document.getElementById('v-list').style.display='block';
+  document.getElementById('v-form').style.display='none';
+  const c=document.getElementById('nlist');
+  const items=[...news].sort((a,b)=>new Date(b.data||0)-new Date(a.data||0));
+  if(!items.length){ c.innerHTML='<p class="empty">Nessuna news pubblicata. Creane una con "Nuova news"!</p>'; return; }
+  c.innerHTML=items.map(n=>`
+    <div class="nitem">
+      <div class="nitem-info">
+        <strong>${escAttr(n.titolo)||'(senza titolo)'}</strong>
+        <span>${n.data?new Date(n.data).toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'}):'Nessuna data'}</span>
+      </div>
+      <div class="nitem-act">
+        <button class="btn btn-sm btn-outline" onclick='openForm(${JSON.stringify(n.id)})'><i class="fa-solid fa-pen"></i> Modifica</button>
+        <button class="btn btn-sm btn-danger" onclick='del(${JSON.stringify(n.id)})'><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>`).join('');
+}
+
+function openForm(id){
+  document.getElementById('v-list').style.display='none';
+  document.getElementById('v-form').style.display='block';
+  document.getElementById('att').innerHTML='';
+  document.getElementById('lnk').innerHTML='';
+  document.getElementById('imgprev').style.display='none';
+  const n = id ? news.find(x=>x.id===id) : null;
+  if(n){
+    editId=n.id;
+    document.getElementById('ftitle').textContent='Modifica news';
+    document.getElementById('f-titolo').value=n.titolo||'';
+    document.getElementById('f-data').value=n.data||'';
+    document.getElementById('f-testo').value=n.testo||'';
+    document.getElementById('f-img').value=n.immagine||'';
+    if(n.immagine) prevImg();
+    (n.allegati||[]).forEach(a=>addAtt(a));
+    (n.link||[]).forEach(l=>addLnk(l));
+  }else{
+    editId=null;
+    document.getElementById('ftitle').textContent='Nuova novità';
+    document.getElementById('f-titolo').value='';
+    document.getElementById('f-data').value=new Date().toISOString().split('T')[0];
+    document.getElementById('f-testo').value='';
+    document.getElementById('f-img').value='';
+  }
+}
+
+function addAtt(a){
+  const d=document.createElement('div');d.className='row';
+  d.innerHTML=`<input type="text" placeholder="Nome (es. Locandina)" value="${escAttr(a&&a.nome)}"><input type="text" placeholder="/uploads/news/file.pdf" value="${escAttr(a&&a.file)}"><button class="bi" onclick="this.parentNode.remove()"><i class="fa-solid fa-times"></i></button>`;
+  document.getElementById('att').appendChild(d);
+}
+function addLnk(l){
+  const d=document.createElement('div');d.className='row';
+  d.innerHTML=`<input type="text" placeholder="Testo link" value="${escAttr(l&&l.nome)}"><input type="text" placeholder="https://..." value="${escAttr(l&&l.url)}"><button class="bi" onclick="this.parentNode.remove()"><i class="fa-solid fa-times"></i></button>`;
+  document.getElementById('lnk').appendChild(d);
+}
+function prevImg(){
+  const v=document.getElementById('f-img').value.trim();
+  const p=document.getElementById('imgprev');
+  if(v){p.src=v;p.style.display='block';}else{p.style.display='none';}
+}
+function escAttr(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+
+async function save(){
+  const titolo=document.getElementById('f-titolo').value.trim();
+  const testo=document.getElementById('f-testo').value.trim();
+  if(!titolo){toast('Inserisci un titolo',true);return;}
+  if(!testo){toast('Inserisci il testo',true);return;}
+  const allegati=[...document.querySelectorAll('#att .row')].map(r=>{const i=r.querySelectorAll('input');return{nome:i[0].value.trim(),file:i[1].value.trim()};}).filter(a=>a.file);
+  const link=[...document.querySelectorAll('#lnk .row')].map(r=>{const i=r.querySelectorAll('input');return{nome:i[0].value.trim(),url:i[1].value.trim()};}).filter(l=>l.url);
+  const obj={
+    id: editId || ('news-'+Date.now()),
+    titolo, testo,
+    data: document.getElementById('f-data').value || new Date().toISOString().split('T')[0],
+    immagine: document.getElementById('f-img').value.trim() || null,
+    allegati, link
+  };
+  if(editId){ const i=news.findIndex(x=>x.id===editId); if(i>=0) news[i]=obj; }
+  else { news.push(obj); }
+  await commit('Pubblicata news: '+titolo);
+}
+
+async function del(id){
+  if(!confirm('Eliminare questa news? L\'operazione non è reversibile.'))return;
+  news = news.filter(x=>x.id!==id);
+  await commit('Eliminata news');
+}
+
+async function commit(msg){
+  const btn=document.getElementById('btnSave');
+  if(btn){btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-circle-notch fa-spin"></i> Pubblicazione...';}
+  try{
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(news,null,2))));
+    const body = { message:msg, content, branch:GH_BRANCH };
+    if(sha) body.sha = sha;
+    const res = await fetch(api(),{
+      method:'PUT',
+      headers:{ Authorization:'Bearer '+token, Accept:'application/vnd.github+json', 'Content-Type':'application/json' },
+      body: JSON.stringify(body)
+    });
+    if(!res.ok) throw new Error('commit');
+    const data = await res.json();
+    sha = data.content.sha;
+    toast('Fatto! La news apparirà sul sito tra circa 1 minuto.');
+    showList();
+  }catch(e){
+    toast('Errore durante il salvataggio. Controlla la connessione e riprova.',true);
+  }finally{
+    if(btn){btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-floppy-disk"></i> Pubblica';}
+  }
+}
+
+function toast(m,err){
+  const t=document.getElementById('toast');
+  t.textContent=m; t.className='toast show'+(err?' err':'');
+  setTimeout(()=>t.className='toast',3500);
+}
+</script>
+</body>
+</html>
