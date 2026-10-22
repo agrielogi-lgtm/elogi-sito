@@ -12,10 +12,11 @@
   <meta property="og:description" content="Olio Extravergine di Oliva e Farro biologici coltivati sui Monti Pisani.">
   <meta property="og:image" content="/images/og-logo.jpg">
   <meta property="og:type" content="website">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Font e icone ospitati in locale: nessuna richiesta a Google o a CDN esterne -->
+  <link rel="preload" href="assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/fraunces-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/fraunces-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/fonts.css">
 
   <style>
     /* ═══════════════════════════════════════════════════
@@ -654,6 +655,8 @@
     }
     .f-submit:hover { background: #ab5435; transform: translateY(-2px); }
     .f-note { font-size: 0.74rem; color: var(--ink-soft); text-align: center; margin-top: 1rem; }
+    .f-note a { color: var(--terracotta); text-decoration: underline; text-underline-offset: 2px; }
+    .f-note a:hover { color: var(--olive-deep); }
     .f-success { display: none; text-align: center; padding: 3rem 1rem; }
     .f-success i { font-size: 2.4rem; color: var(--olive); display: block; margin-bottom: 1rem; }
     .f-success h3 { color: var(--olive-deep); margin-bottom: 0.6rem; }
@@ -696,6 +699,9 @@
       font-size: 0.78rem; flex-wrap: wrap; gap: 1rem;
     }
     .foot-motto { font-family: var(--f-head); font-style: italic; color: rgba(255,255,255,0.4); }
+    .foot-legal { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+    .foot-legal a { color: rgba(255,255,255,0.72); text-decoration: underline; text-underline-offset: 3px; }
+    .foot-legal a:hover { color: #fff; }
 
     /* ═══════════════════════════════════════════════════
        RESPONSIVE
@@ -867,7 +873,6 @@
       <figure class="gall-item"><img src="images/galleria-olio-frantoio.jpg" alt="L'olio extravergine ELOGI che cola dal frantoio" loading="lazy"></figure>
       <figure class="gall-item"><img src="images/olio-ulivi-alto.jpg" alt="Gli ulivi di ELOGI sui Monti Pisani" loading="lazy"></figure>
       <figure class="gall-item"><img src="images/olio-albero.jpg" alt="Bottiglia ELOGI nell'incavo di un ulivo" loading="lazy"></figure>
-      <!-- Aggiungi altre foto: <figure class="gall-item"><img src="images/tua-foto.jpg" alt="..."></figure> -->
     </div>
     <button class="gall-arrow gall-next" id="gallNext" aria-label="Foto successive"><i class="fa-solid fa-chevron-right"></i></button>
   </div>
@@ -1009,7 +1014,8 @@
           <h3 data-i18n="form.ok.title">Messaggio inviato!</h3>
           <p data-i18n="form.ok.txt">Grazie per averci scritto. Vi risponderemo il prima possibile.</p>
         </div>
-        <form id="cForm" novalidate>
+        <form id="cForm" name="contact" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+          <input type="hidden" name="form-name" value="contact">
           <div class="f-group" id="ge">
             <label for="email" data-i18n="form.email.lbl">La tua email *</label>
             <input type="email" id="email" name="email" data-i18n-placeholder="form.email.ph" placeholder="mario.rossi@esempio.it" autocomplete="email">
@@ -1017,15 +1023,15 @@
           </div>
           <div class="f-group" id="gm">
             <label for="msg" data-i18n="form.msg.lbl">Il tuo messaggio *</label>
-            <textarea id="msg" name="msg" rows="6" data-i18n-placeholder="form.msg.ph" placeholder="Scrivi qui la tua richiesta — prodotti, prezzi, ospitalità, visita in azienda..."></textarea>
+            <textarea id="msg" name="message" rows="6" data-i18n-placeholder="form.msg.ph" placeholder="Scrivi qui la tua richiesta — prodotti, prezzi, ospitalità, visita in azienda..."></textarea>
             <span class="err-txt" data-i18n="form.msg.err">Scrivi il tuo messaggio prima di inviare.</span>
           </div>
           <div aria-hidden="true" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
-            <label for="website">Non compilare questo campo</label>
-            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+            <label for="bot-field">Non compilare questo campo</label>
+            <input type="text" id="bot-field" name="bot-field" tabindex="-1" autocomplete="off">
           </div>
           <button type="submit" class="f-submit"><i class="fa-solid fa-paper-plane"></i>&nbsp; <span data-i18n="form.send">Invia il messaggio</span></button>
-          <p class="f-note" data-i18n="form.note">* Campi obbligatori. I vostri dati non saranno mai condivisi con terzi.</p>
+          <p class="f-note" data-i18n="form.note">* Campi obbligatori. Inviando il messaggio dichiari di aver letto l'<a href="privacy.html">Informativa privacy</a>.</p>
         </form>
       </div>
     </div>
@@ -1068,6 +1074,10 @@
   </div>
   <div class="foot-bottom">
     <span data-i18n="foot.copy">© 2025 ELOGI Società Agricola Semplice · Buti (PI) · P.IVA e C.F. 02524020506</span>
+    <span class="foot-legal">
+      <a href="privacy.html" data-i18n="foot.privacy">Privacy Policy</a>
+      <a href="cookie.html" data-i18n="foot.cookie">Cookie Policy</a>
+    </span>
     <span class="foot-motto">Omnibus Iustissima Tellus</span>
   </div>
 </footer>
@@ -1119,10 +1129,10 @@ const T = {
     'cont.maps':'Apri in Google Maps',
     'form.title':'Inviaci un messaggio','form.email.lbl':'La tua email *','form.email.ph':'mario.rossi@esempio.it','form.email.err':'Inserisci un indirizzo email valido.',
     'form.msg.lbl':'Il tuo messaggio *','form.msg.ph':'Scrivi qui la tua richiesta — prodotti, prezzi, ospitalità, visita in azienda...','form.msg.err':'Scrivi il tuo messaggio prima di inviare.',
-    'form.send':'Invia il messaggio','form.note':'* Campi obbligatori. I vostri dati non saranno mai condivisi con terzi.',
+    'form.send':'Invia il messaggio','form.note':'* Campi obbligatori. Inviando il messaggio dichiari di aver letto l\'<a href="privacy.html">Informativa privacy</a>.',
     'form.ok.title':'Messaggio inviato!','form.ok.txt':'Grazie per averci scritto. Vi risponderemo il prima possibile.',
     'foot.desc':'Tre generazioni di agricoltura familiare sulle colline di Buti, in provincia di Pisa. Olio extravergine di oliva, farro biologico e ospitalità rurale autentica.',
-    'foot.nav':'Naviga','foot.where':'Dove siamo','foot.follow':'Seguici','foot.copy':'© 2025 ELOGI Società Agricola Semplice · Buti (PI) · P.IVA e C.F. 02524020506'
+    'foot.privacy':'Privacy Policy','foot.cookie':'Cookie Policy','foot.nav':'Naviga','foot.where':'Dove siamo','foot.follow':'Seguici','foot.copy':'© 2025 ELOGI Società Agricola Semplice · Buti (PI) · P.IVA e C.F. 02524020506'
   },
   en: {
     'header.sub':'Agricultural Company · Buti, Tuscany',
@@ -1168,10 +1178,10 @@ const T = {
     'cont.maps':'Open in Google Maps',
     'form.title':'Send us a message','form.email.lbl':'Your email *','form.email.ph':'mario.rossi@example.com','form.email.err':'Please enter a valid email address.',
     'form.msg.lbl':'Your message *','form.msg.ph':'Write your request here — product availability, prices, accommodation, farm visit...','form.msg.err':'Please write your message before sending.',
-    'form.send':'Send message','form.note':'* Required fields. Your data will never be shared with third parties.',
+    'form.send':'Send message','form.note':'* Required fields. By sending your message you confirm that you have read the <a href="privacy.html">Privacy Policy</a>.',
     'form.ok.title':'Message sent!','form.ok.txt':"Thank you for writing to us. We'll get back to you as soon as possible.",
     'foot.desc':'Three generations of family farming in the hills of Buti, province of Pisa. Extra virgin olive oil, organic spelt and authentic rural hospitality.',
-    'foot.nav':'Navigate','foot.where':'Where we are','foot.follow':'Follow us','foot.copy':'© 2025 ELOGI Agricultural Company · Buti (PI) · VAT & Tax Code 02524020506'
+    'foot.privacy':'Privacy Policy','foot.cookie':'Cookie Policy','foot.nav':'Navigate','foot.where':'Where we are','foot.follow':'Follow us','foot.copy':'© 2025 ELOGI Agricultural Company · Buti (PI) · VAT & Tax Code 02524020506'
   }
 };
 let currentLang = localStorage.getItem('elogi-lang') || 'it';
@@ -1271,29 +1281,28 @@ document.getElementById('cForm')?.addEventListener('submit',async function(e){
   if(!ok)return;
 
   // ════════════════════════════════════════════════════════════
-  // FORM CONTATTI (servizio: Formspree)
-  // Sostituisci [DA INSERIRE] con l'ID del tuo form Formspree
-  // (formato: https://formspree.io/f/xxxxabcd → l'ID è "xxxxabcd").
-  // Finché resta [DA INSERIRE] il form non invia nulla e mostra
-  // all'utente l'indirizzo email diretto.
+  // FORM CONTATTI — gestito da Netlify Forms (lo stesso fornitore
+  // che ospita il sito). Il <form> sopra ha data-netlify="true":
+  // Netlify lo riconosce alla pubblicazione. I messaggi finiscono
+  // nella scheda "Forms" di Netlify e, con la notifica attiva,
+  // arrivano anche per email. Netlify vuole il formato "url-encoded".
   // ════════════════════════════════════════════════════════════
-  const FORMSPREE_ID = '[DA INSERIRE]';
-  const FORMSPREE_URL = 'https://formspree.io/f/' + FORMSPREE_ID;
-  const FALLBACK_MSG = currentLang==='en'
-    ? 'The form is not active yet. Please write to us directly at info.agrielogi@gmail.com'
-    : 'Il modulo non è ancora attivo. Scriveteci direttamente a info.agrielogi@gmail.com';
-  if(FORMSPREE_ID.indexOf('DA INSERIRE')!==-1){ alert(FALLBACK_MSG); return; }
-
   const btn=this.querySelector('.f-submit');
   const oldHtml=btn.innerHTML;
   btn.disabled=true; btn.style.opacity='0.7';
   btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>&nbsp; '+(currentLang==='en'?'Sending...':'Invio in corso...');
 
   try{
-    const res=await fetch(FORMSPREE_URL,{
+    const payload=new URLSearchParams({
+      'form-name':'contact',
+      'bot-field':(document.getElementById('bot-field')||{}).value||'',
+      email:email,
+      message:msg
+    }).toString();
+    const res=await fetch('/',{
       method:'POST',
-      headers:{'Accept':'application/json','Content-Type':'application/json'},
-      body:JSON.stringify({email:email,message:msg,_gotcha:(document.getElementById('website')||{}).value||''})
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:payload
     });
     if(res.ok){
       this.style.display='none';

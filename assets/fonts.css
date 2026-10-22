@@ -1,0 +1,52 @@
+/* Font ospitati in locale (nessuna richiesta a Google Fonts).
+   Fraunces e Manrope: licenza SIL Open Font License 1.1 (licenze in assets/fonts/LICENSE-*.txt). */
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:100 900;font-display:swap;
+  src:url(fonts/fraunces-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Fraunces';font-style:italic;font-weight:100 900;font-display:swap;
+  src:url(fonts/fraunces-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;
+  src:url(fonts/manrope.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+
+/* Icone Font Awesome Free 6.5.2 (licenza: icone CC BY 4.0, font SIL OFL 1.1, codice MIT) — solo quelle usate nel sito */
+@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:swap;src:url(fonts/fa-solid.woff2) format("woff2")}
+@font-face{font-family:"Font Awesome 6 Brands";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/fa-brands.woff2) format("woff2")}
+.fa-solid,.fa-brands{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:var(--fa-display,inline-block);font-style:normal;font-variant:normal;line-height:1;text-rendering:auto}
+.fa-solid{font-family:"Font Awesome 6 Free";font-weight:900}
+.fa-brands{font-family:"Font Awesome 6 Brands";font-weight:400}
+.fa-spin{animation:fa-spin 2s infinite linear}
+@keyframes fa-spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.fa-spin{animation-duration:6s}}
+.fa-arrow-down::before{content:"\f063"}
+.fa-arrow-right::before{content:"\f061"}
+.fa-arrow-up-right-from-square::before{content:"\f08e"}
+.fa-basket-shopping::before{content:"\f291"}
+.fa-bed::before{content:"\f236"}
+.fa-calendar-day::before{content:"\f783"}
+.fa-chevron-down::before{content:"\f078"}
+.fa-chevron-left::before{content:"\f053"}
+.fa-chevron-right::before{content:"\f054"}
+.fa-circle-check::before{content:"\f058"}
+.fa-circle-notch::before{content:"\f1ce"}
+.fa-envelope::before{content:"\f0e0"}
+.fa-floppy-disk::before{content:"\f0c7"}
+.fa-house::before{content:"\f015"}
+.fa-image::before{content:"\f03e"}
+.fa-jar::before{content:"\e516"}
+.fa-airbnb::before{content:"\f834"}
+.fa-instagram::before{content:"\f16d"}
+.fa-leaf::before{content:"\f06c"}
+.fa-link::before{content:"\f0c1"}
+.fa-location-dot::before{content:"\f3c5"}
+.fa-lock-open::before{content:"\f3c1"}
+.fa-map-location-dot::before{content:"\f5a0"}
+.fa-paper-plane::before{content:"\f1d8"}
+.fa-paperclip::before{content:"\f0c6"}
+.fa-pen::before{content:"\f304"}
+.fa-phone::before{content:"\f095"}
+.fa-plus::before{content:"\2b"}
+.fa-right-from-bracket::before{content:"\f2f5"}
+.fa-seedling::before{content:"\f4d8"}
+.fa-spinner::before{content:"\f110"}
+.fa-times::before{content:"\f00d"}
+.fa-trash::before{content:"\f1f8"}
+.fa-whatsapp::before{content:"\f232"}
