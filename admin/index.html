@@ -97,7 +97,7 @@
     <p class="err" id="err">Chiave non valida o connessione assente. Riprova.</p>
     <button class="btn btn-primary" id="btnLogin" onclick="login()"><i class="fa-solid fa-lock-open"></i> Accedi</button>
     <div class="help">
-      <strong>Prima volta?</strong> La chiave di accesso è un "token GitHub" che si crea una sola volta. Trovi le istruzioni passo-passo nel file <em>GUIDA-NEWS.txt</em> incluso nel sito. Conservala: ti servirà ogni volta.
+      <strong>Prima volta?</strong> La chiave di accesso è un "token GitHub" che si crea una volta e dura fino alla scadenza scelta. Conservala in un posto sicuro: ti serve ogni volta che accedi.
     </div>
   </div>
 </div>
@@ -275,6 +275,10 @@ async function save(){
   if(!testo){toast('Inserisci il testo',true);return;}
   const allegati=[...document.querySelectorAll('#att .row')].map(r=>{const i=r.querySelectorAll('input');return{nome:i[0].value.trim(),file:i[1].value.trim()};}).filter(a=>a.file);
   const link=[...document.querySelectorAll('#lnk .row')].map(r=>{const i=r.querySelectorAll('input');return{nome:i[0].value.trim(),url:i[1].value.trim()};}).filter(l=>l.url);
+  const okUrl=u=>!u||/^\/(?!\/)/.test(u)||/^https?:\/\//i.test(u);
+  if(!okUrl(document.getElementById('f-img').value.trim())||allegati.some(a=>!okUrl(a.file))||link.some(l=>!okUrl(l.url))){
+    toast('Immagine, file e link devono iniziare con / oppure con https://',true);return;
+  }
   const obj={
     id: editId || ('news-'+Date.now()),
     titolo, testo,

@@ -1020,6 +1020,10 @@
             <textarea id="msg" name="msg" rows="6" data-i18n-placeholder="form.msg.ph" placeholder="Scrivi qui la tua richiesta — prodotti, prezzi, ospitalità, visita in azienda..."></textarea>
             <span class="err-txt" data-i18n="form.msg.err">Scrivi il tuo messaggio prima di inviare.</span>
           </div>
+          <div aria-hidden="true" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+            <label for="website">Non compilare questo campo</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
           <button type="submit" class="f-submit"><i class="fa-solid fa-paper-plane"></i>&nbsp; <span data-i18n="form.send">Invia il messaggio</span></button>
           <p class="f-note" data-i18n="form.note">* Campi obbligatori. I vostri dati non saranno mai condivisi con terzi.</p>
         </form>
@@ -1267,11 +1271,18 @@ document.getElementById('cForm')?.addEventListener('submit',async function(e){
   if(!ok)return;
 
   // ════════════════════════════════════════════════════════════
-  // FORMSPREE — sostituisci IL_TUO_CODICE con il codice del tuo
-  // form Formspree (vedi GUIDA-SETUP, punto "Form contatti").
-  // Esempio finale: https://formspree.io/f/xxxxabcd
+  // FORM CONTATTI (servizio: Formspree)
+  // Sostituisci [DA INSERIRE] con l'ID del tuo form Formspree
+  // (formato: https://formspree.io/f/xxxxabcd → l'ID è "xxxxabcd").
+  // Finché resta [DA INSERIRE] il form non invia nulla e mostra
+  // all'utente l'indirizzo email diretto.
   // ════════════════════════════════════════════════════════════
-  const FORMSPREE_URL = 'https://formspree.io/f/IL_TUO_CODICE';
+  const FORMSPREE_ID = '[DA INSERIRE]';
+  const FORMSPREE_URL = 'https://formspree.io/f/' + FORMSPREE_ID;
+  const FALLBACK_MSG = currentLang==='en'
+    ? 'The form is not active yet. Please write to us directly at info.agrielogi@gmail.com'
+    : 'Il modulo non è ancora attivo. Scriveteci direttamente a info.agrielogi@gmail.com';
+  if(FORMSPREE_ID.indexOf('DA INSERIRE')!==-1){ alert(FALLBACK_MSG); return; }
 
   const btn=this.querySelector('.f-submit');
   const oldHtml=btn.innerHTML;
@@ -1281,8 +1292,8 @@ document.getElementById('cForm')?.addEventListener('submit',async function(e){
   try{
     const res=await fetch(FORMSPREE_URL,{
       method:'POST',
-      headers:{'Accept':'application/json'},
-      body:JSON.stringify({email:email,message:msg})
+      headers:{'Accept':'application/json','Content-Type':'application/json'},
+      body:JSON.stringify({email:email,message:msg,_gotcha:(document.getElementById('website')||{}).value||''})
     });
     if(res.ok){
       this.style.display='none';
@@ -1302,16 +1313,7 @@ document.getElementById('cForm')?.addEventListener('submit',async function(e){
 
 
 </script>
-<!-- Netlify Identity: reindirizza al pannello dopo il login -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on('init', user => {
-      if (!user) {
-        window.netlifyIdentity.on('login', () => { document.location.href = '/admin/'; });
-      }
-    });
-  }
 
 /* ── NEWS LOADER (legge news/news.json, statico, nessun build) ── */
 (function(){
@@ -1327,6 +1329,11 @@ document.getElementById('cForm')?.addEventListener('submit',async function(e){
       return d.toLocaleDateString(loc, {day:'numeric', month:'long', year:'numeric'});
     } catch(e){ return iso; }
   }
+  function safeUrl(u){
+    u = String(u||'').trim();
+    if(/^\/(?!\/)/.test(u) || /^https?:\/\//i.test(u)) return u;
+    return '';
+  }
   function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
   fetch('news/news.json?t=' + Date.now())
@@ -1335,13 +1342,13 @@ document.getElementById('cForm')?.addEventListener('submit',async function(e){
       if(!Array.isArray(items) || !items.length){ if(empty) empty.style.display='block'; return; }
       items.sort(function(a,b){ return new Date(b.data||0) - new Date(a.data||0); });
       list.innerHTML = items.map(function(n){
-        var img = n.immagine ? '<div class="news-card-img"><img src="'+n.immagine+'" alt="'+esc(n.titolo)+'" loading="lazy"></div>' : '';
+        var img = safeUrl(n.immagine) ? '<div class="news-card-img"><img src="'+esc(safeUrl(n.immagine))+'" alt="'+esc(n.titolo)+'" loading="lazy"></div>' : '';
         var atts = '';
         (n.allegati||[]).forEach(function(a){
-          if(a && a.file) atts += '<a class="news-att" href="'+a.file+'" target="_blank" rel="noopener"><i class="fa-solid fa-paperclip"></i> '+esc(a.nome||'Allegato')+'</a>';
+          if(a && safeUrl(a.file)) atts += '<a class="news-att" href="'+esc(safeUrl(a.file))+'" target="_blank" rel="noopener"><i class="fa-solid fa-paperclip"></i> '+esc(a.nome||'Allegato')+'</a>';
         });
         (n.link||[]).forEach(function(l){
-          if(l && l.url) atts += '<a class="news-att is-link" href="'+l.url+'" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> '+esc(l.nome||l.url)+'</a>';
+          if(l && safeUrl(l.url)) atts += '<a class="news-att is-link" href="'+esc(safeUrl(l.url))+'" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> '+esc(l.nome||l.url)+'</a>';
         });
         var dateHtml = n.data ? '<span class="news-date"><i class="fa-solid fa-calendar-day"></i> '+fmtDate(n.data)+'</span>' : '';
         var testo = esc(n.testo).replace(/\n/g,'<br>');
